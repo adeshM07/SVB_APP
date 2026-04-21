@@ -2,6 +2,10 @@
 
 Kotlin, Jetpack Compose, Material 3, Navigation Compose, and Dagger Hilt. This repo currently implements the **shared five-screen clock-in flow** (P0–P2): Splash through Clock-in preview, plus a **placeholder** screen after clock-in.
 
+## Product plan (frontend + phases)
+
+Full scope, Field Ops design tokens, navigation shape, and milestone checklist: **[`docs/erp_login_flow_plan.md`](docs/erp_login_flow_plan.md)**.
+
 ## Requirements
 
 - JDK 17
