@@ -136,6 +136,15 @@ fun LoginScreen(
                 enabled = state.employeeId.isNotBlank() && state.uniqueCode.isNotBlank(),
                 leadingIcon = Icons.AutoMirrored.Rounded.Login,
             )
+            val loginError = state.loginErrorMessage
+            if (loginError != null) {
+                Spacer(Modifier.height(12.dp))
+                Text(
+                    text = loginError,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
             Spacer(Modifier.height(12.dp))
         }
     }

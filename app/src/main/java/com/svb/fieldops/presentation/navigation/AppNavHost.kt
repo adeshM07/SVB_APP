@@ -16,6 +16,10 @@ import com.svb.fieldops.presentation.screens.GeofenceVerifiedScreen
 import com.svb.fieldops.presentation.screens.LoginScreen
 import com.svb.fieldops.presentation.screens.SelfieCaptureScreen
 import com.svb.fieldops.presentation.screens.SplashScreen
+import com.svb.fieldops.presentation.screens.home.DriverHomeScreen
+import com.svb.fieldops.presentation.screens.home.EngineerHomeScreen
+import com.svb.fieldops.presentation.screens.home.OperatorHomeScreen
+import com.svb.fieldops.presentation.screens.home.SupervisorHomeScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
 
 @Composable
@@ -47,8 +51,9 @@ fun AppNavHost(
                     onEmployeeIdChange = vm::onEmployeeIdChange,
                     onUniqueCodeChange = vm::onUniqueCodeChange,
                     onLogin = {
-                        vm.onLoginSubmitted()
-                        navController.navigate(ClockInRoutes.geofence)
+                        if (vm.submitLogin()) {
+                            navController.navigate(ClockInRoutes.geofence)
+                        }
                     },
                 )
             }
@@ -89,7 +94,9 @@ fun AppNavHost(
                         navController.popBackStack()
                     },
                     onClockIn = {
-                        navController.navigate(ClockInRoutes.flowComplete) {
+                        val role = vm.uiState.value.sessionRole
+                        val destination = role?.toRoute() ?: ClockInRoutes.flowComplete
+                        navController.navigate(destination) {
                             popUpTo(ClockInRoutes.graph) { inclusive = true }
                             launchSingleTop = true
                         }
@@ -99,6 +106,18 @@ fun AppNavHost(
         }
         composable(ClockInRoutes.flowComplete) {
             FlowCompleteScreen()
+        }
+        composable(MainRoutes.driver) {
+            DriverHomeScreen()
+        }
+        composable(MainRoutes.operator) {
+            OperatorHomeScreen()
+        }
+        composable(MainRoutes.supervisor) {
+            SupervisorHomeScreen()
+        }
+        composable(MainRoutes.engineer) {
+            EngineerHomeScreen()
         }
     }
 }

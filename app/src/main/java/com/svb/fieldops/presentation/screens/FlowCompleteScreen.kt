@@ -21,7 +21,7 @@ fun FlowCompleteScreen() {
     val context = LocalContext.current
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(24.dp),
         ) {
@@ -31,7 +31,7 @@ fun FlowCompleteScreen() {
             )
             Spacer(Modifier.height(12.dp))
             Text(
-                text = "This is a placeholder after the five shared screens. Driver / Supervisor / Engineer homes will plug in here later.",
+                text = "This is a fallback when no role is in session. Normally you land on Driver, Operator, Supervisor, or Engineer home after clock-in.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = SvbN3,
             )

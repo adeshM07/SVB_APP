@@ -33,3 +33,9 @@ val SvbClockInHeader = Color(0xFF333333)
 
 /** Selfie camera card / elevated surface on dark UI. */
 val SvbSelfieCard = Color(0xFF2C2C2C)
+
+/** Muted cards on home dashboards (Field Ops mockups ~ #F2F2F2). */
+val SvbCardMuted = Color(0xFFF2F2F2)
+
+/** Engineer “pending approvals” alert surface (soft rose). */
+val SvbRoseTint = Color(0xFFFFF0F0)

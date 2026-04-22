@@ -34,7 +34,7 @@ val SvbTypography = Typography(
         lineHeight = 34.sp,
     ),
     headlineMedium = defaultTypography.headlineMedium.withInter().copy(
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight.ExtraBold,
         fontSize = 20.sp,
         lineHeight = 26.sp,
     ),
@@ -53,7 +53,7 @@ val SvbTypography = Typography(
     bodyLarge = defaultTypography.bodyLarge.withInter(),
     bodyMedium = defaultTypography.bodyMedium.withInter().copy(
         fontWeight = FontWeight.Normal,
-        fontSize = 13.sp,
+        fontSize = 14.sp,
         lineHeight = 18.sp,
     ),
     bodySmall = defaultTypography.bodySmall.withInter().copy(
