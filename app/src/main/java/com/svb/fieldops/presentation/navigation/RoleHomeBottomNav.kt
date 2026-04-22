@@ -45,3 +45,16 @@ fun bottomNavItemsForRole(role: UserRole): List<HomeNavEntry> = when (role) {
 }
 
 fun profileTabIndex(role: UserRole): Int = bottomNavItemsForRole(role).lastIndex
+
+/** Bottom-nav index of HSD/Fuel for roles that share [HsdFuelScreen]; null for Engineer (Diesel is separate). */
+fun fuelTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Driver, UserRole.Operator -> 2
+    UserRole.Supervisor -> 3
+    UserRole.Engineer -> null
+}
+
+/** Bottom-nav index of Diesel for Engineer [EngineerDieselScreen]; null for other roles. */
+fun dieselTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Engineer -> 2
+    else -> null
+}

@@ -42,8 +42,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
-import com.svb.fieldops.presentation.navigation.NavStateKeys
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
+import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.presentation.screens.home.HomeCardShape
 import com.svb.fieldops.presentation.screens.home.HomeRoleNavigationBar
@@ -103,11 +103,6 @@ private fun profileDemoFor(role: UserRole): ProfileDemo = when (role) {
         attendance = "98%",
         rating = "4.8",
     )
-}
-
-private fun NavHostController.popRoleHomeWithHomeTabSelected() {
-    previousBackStackEntry?.savedStateHandle?.set(NavStateKeys.RESET_HOME_BOTTOM_TAB, true)
-    popBackStack()
 }
 
 @Composable
