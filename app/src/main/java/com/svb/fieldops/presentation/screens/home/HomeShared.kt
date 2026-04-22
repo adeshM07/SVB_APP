@@ -367,11 +367,15 @@ internal fun MetricMiniCard(
     value: String,
     label: String,
     modifier: Modifier = Modifier,
+    containerColor: Color = SvbCardMuted,
+    valueColor: Color = SvbBlack,
+    labelColor: Color = SvbN2,
+    valueFontWeight: FontWeight? = null,
 ) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = SvbCardMuted),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
     ) {
         Column(
@@ -380,12 +384,17 @@ internal fun MetricMiniCard(
                 .padding(vertical = 14.dp, horizontal = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(value, style = MaterialTheme.typography.headlineMedium, color = SvbBlack)
+            Text(
+                text = value,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = valueFontWeight,
+                color = valueColor,
+            )
             Spacer(Modifier.height(4.dp))
             Text(
                 label,
                 style = MaterialTheme.typography.bodySmall,
-                color = SvbN2,
+                color = labelColor,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )

@@ -20,6 +20,8 @@ val SvbN1 = Color(0xFF1F1F1F)
 val SvbN2 = Color(0xFF4B4B4B)
 val SvbN3 = Color(0xFFBEBEBE)
 val SvbN5 = Color(0xFFE1E1E1)
+/** Inset dividers on muted surfaces (~#E0E0E0). */
+val SvbDivider = Color(0xFFE0E0E0)
 val SvbN7 = Color(0xFFF5F5F5)
 
 /** Login / geofence light surfaces (from Field Ops–aligned mockups). */

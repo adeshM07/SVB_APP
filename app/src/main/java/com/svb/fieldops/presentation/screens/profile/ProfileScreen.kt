@@ -46,6 +46,7 @@ import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
 import com.svb.fieldops.presentation.navigation.loadingsTabIndex
+import com.svb.fieldops.presentation.navigation.tripsTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.presentation.screens.home.HomeCardShape
@@ -118,6 +119,7 @@ fun ProfileScreen(
     val profileIdx = profileTabIndex(role)
     val fuelIdx = fuelTabIndex(role)
     val loadingsIdx = loadingsTabIndex(role)
+    val tripsIdx = tripsTabIndex(role)
     val scroll = rememberScrollState()
 
     Scaffold(
@@ -131,6 +133,8 @@ fun ProfileScreen(
                         index == profileIdx -> Unit
                         loadingsIdx != null && index == loadingsIdx ->
                             navController.navigate(MainRoutes.loadings(role)) { launchSingleTop = true }
+                        tripsIdx != null && index == tripsIdx ->
+                            navController.navigate(MainRoutes.trips(role)) { launchSingleTop = true }
                         fuelIdx != null && index == fuelIdx ->
                             navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
                         else -> navController.popRoleHomeWithHomeTabSelected()

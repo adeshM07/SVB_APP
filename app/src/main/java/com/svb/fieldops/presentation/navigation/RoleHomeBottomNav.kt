@@ -64,3 +64,9 @@ fun loadingsTabIndex(role: UserRole): Int? = when (role) {
     UserRole.Operator -> 1
     else -> null
 }
+
+/** Bottom-nav index of Trips for Driver [DriverTodaysTripsScreen]; null for other roles. */
+fun tripsTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Driver -> 1
+    else -> null
+}

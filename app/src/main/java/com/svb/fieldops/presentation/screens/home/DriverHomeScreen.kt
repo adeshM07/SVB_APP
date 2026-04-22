@@ -30,6 +30,7 @@ import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
 import com.svb.fieldops.presentation.navigation.profileTabIndex
+import com.svb.fieldops.presentation.navigation.tripsTabIndex
 import com.svb.fieldops.ui.theme.SvbCardMuted
 import com.svb.fieldops.ui.theme.SvbLoginBackground
 
@@ -39,6 +40,7 @@ fun DriverHomeScreen(navController: NavHostController) {
     val navItems = bottomNavItemsForRole(role)
     val profileIdx = profileTabIndex(role)
     val fuelIdx = fuelTabIndex(role)
+    val tripsIdx = tripsTabIndex(role)
     var selectedTab by remember { mutableIntStateOf(0) }
     HomeBottomTabResetFromProfileEffect(navController) { selectedTab = 0 }
 
@@ -54,6 +56,8 @@ fun DriverHomeScreen(navController: NavHostController) {
                     when {
                         index == profileIdx ->
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                        tripsIdx != null && index == tripsIdx ->
+                            navController.navigate(MainRoutes.trips(role)) { launchSingleTop = true }
                         fuelIdx != null && index == fuelIdx ->
                             navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
                     }

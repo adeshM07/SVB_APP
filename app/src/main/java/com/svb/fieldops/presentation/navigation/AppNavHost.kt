@@ -26,6 +26,7 @@ import com.svb.fieldops.presentation.screens.home.SupervisorHomeScreen
 import com.svb.fieldops.presentation.screens.diesel.EngineerDieselScreen
 import com.svb.fieldops.presentation.screens.fuel.HsdFuelScreen
 import com.svb.fieldops.presentation.screens.loadings.OperatorLoadingsScreen
+import com.svb.fieldops.presentation.screens.trips.DriverTodaysTripsScreen
 import com.svb.fieldops.presentation.screens.profile.ProfileScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
 
@@ -180,6 +181,20 @@ fun AppNavHost(
                 LaunchedEffect(Unit) { navController.popBackStack() }
             } else {
                 OperatorLoadingsScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.tripsRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsDriverTripsScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                DriverTodaysTripsScreen(role = role, navController = navController)
             }
         }
     }
