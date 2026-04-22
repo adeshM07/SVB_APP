@@ -18,25 +18,43 @@ import androidx.compose.material.icons.outlined.StopCircle
 import androidx.compose.material.icons.outlined.SwapHoriz
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.svb.fieldops.domain.model.UserRole
+import com.svb.fieldops.presentation.navigation.MainRoutes
+import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
+import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.ui.theme.SvbCardMuted
 import com.svb.fieldops.ui.theme.SvbLoginBackground
 
 @Composable
-fun DriverHomeScreen() {
+fun DriverHomeScreen(navController: NavHostController) {
+    val role = UserRole.Driver
+    val navItems = bottomNavItemsForRole(role)
+    val profileIdx = profileTabIndex(role)
+    var selectedTab by remember { mutableIntStateOf(0) }
+    HomeBottomTabResetFromProfileEffect(navController) { selectedTab = 0 }
+
     val scroll = rememberScrollState()
     Scaffold(
         containerColor = SvbLoginBackground,
         bottomBar = {
             HomeRoleNavigationBar(
-                items = listOf(
-                    HomeNavEntry("Home", Icons.Outlined.Home),
-                    HomeNavEntry("Trips", Icons.Outlined.Route),
-                    HomeNavEntry("Fuel", Icons.Outlined.LocalGasStation),
-                    HomeNavEntry("Profile", Icons.Outlined.Person),
-                ),
-                selectedIndex = 0,
+                items = navItems,
+                selectedIndex = selectedTab,
+                onSelect = { index ->
+                    selectedTab = index
+                    if (index == profileIdx) {
+                        navController.navigate(MainRoutes.profile(role)) {
+                            launchSingleTop = true
+                        }
+                    }
+                },
             )
         },
     ) { innerPadding ->

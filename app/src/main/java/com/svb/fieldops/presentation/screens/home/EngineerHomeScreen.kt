@@ -37,11 +37,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.svb.fieldops.domain.model.UserRole
+import com.svb.fieldops.presentation.navigation.MainRoutes
+import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
+import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.ui.theme.SvbBlack
 import com.svb.fieldops.ui.theme.SvbCardMuted
 import com.svb.fieldops.ui.theme.SvbDanger
@@ -54,20 +63,28 @@ import com.svb.fieldops.ui.theme.SvbRoseTint
 import com.svb.fieldops.ui.theme.SvbWhite
 
 @Composable
-fun EngineerHomeScreen() {
+fun EngineerHomeScreen(navController: NavHostController) {
+    val role = UserRole.Engineer
+    val navItems = bottomNavItemsForRole(role)
+    val profileIdx = profileTabIndex(role)
+    var selectedTab by remember { mutableIntStateOf(0) }
+    HomeBottomTabResetFromProfileEffect(navController) { selectedTab = 0 }
+
     val scroll = rememberScrollState()
     Scaffold(
         containerColor = SvbLoginBackground,
         bottomBar = {
             HomeRoleNavigationBar(
-                items = listOf(
-                    HomeNavEntry("Home", Icons.Outlined.Home),
-                    HomeNavEntry("Approvals", Icons.Outlined.TaskAlt),
-                    HomeNavEntry("Diesel", Icons.Outlined.LocalGasStation),
-                    HomeNavEntry("DPR", Icons.AutoMirrored.Outlined.Assignment),
-                    HomeNavEntry("Profile", Icons.Outlined.Person),
-                ),
-                selectedIndex = 0,
+                items = navItems,
+                selectedIndex = selectedTab,
+                onSelect = { index ->
+                    selectedTab = index
+                    if (index == profileIdx) {
+                        navController.navigate(MainRoutes.profile(role)) {
+                            launchSingleTop = true
+                        }
+                    }
+                },
             )
         },
     ) { innerPadding ->

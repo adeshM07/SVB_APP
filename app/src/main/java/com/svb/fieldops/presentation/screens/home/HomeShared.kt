@@ -39,6 +39,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import com.svb.fieldops.presentation.navigation.NavStateKeys
 import com.svb.fieldops.ui.theme.SvbBlack
 import com.svb.fieldops.ui.theme.SvbCardMuted
 import com.svb.fieldops.ui.theme.SvbDanger
@@ -63,6 +67,26 @@ import com.svb.fieldops.ui.theme.SvbWhite
 
 internal val HomeCardShape = RoundedCornerShape(20.dp)
 internal val HomeIconTileShape = RoundedCornerShape(12.dp)
+
+/**
+ * When [NavStateKeys.RESET_HOME_BOTTOM_TAB] is set on this screen’s back stack entry (e.g. before
+ * popping Profile), selects the Home tab again.
+ */
+@Composable
+internal fun HomeBottomTabResetFromProfileEffect(
+    navController: NavHostController,
+    onResetToHomeTab: () -> Unit,
+) {
+    val handle = navController.currentBackStackEntry?.savedStateHandle ?: return
+    val reset by handle.getStateFlow(NavStateKeys.RESET_HOME_BOTTOM_TAB, false)
+        .collectAsStateWithLifecycle()
+    LaunchedEffect(reset) {
+        if (reset) {
+            onResetToHomeTab()
+            handle[NavStateKeys.RESET_HOME_BOTTOM_TAB] = false
+        }
+    }
+}
 
 /** Start inset for [ActionDividerTextAligned] — matches [ActionTileRow] padding + icon + gap. */
 private val ActionTileRowTextStartInset = 16.dp + 44.dp + 14.dp

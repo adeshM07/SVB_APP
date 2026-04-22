@@ -5,11 +5,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.svb.fieldops.presentation.screens.ClockInPreviewScreen
 import com.svb.fieldops.presentation.screens.FlowCompleteScreen
 import com.svb.fieldops.presentation.screens.GeofenceVerifiedScreen
@@ -20,6 +23,7 @@ import com.svb.fieldops.presentation.screens.home.DriverHomeScreen
 import com.svb.fieldops.presentation.screens.home.EngineerHomeScreen
 import com.svb.fieldops.presentation.screens.home.OperatorHomeScreen
 import com.svb.fieldops.presentation.screens.home.SupervisorHomeScreen
+import com.svb.fieldops.presentation.screens.profile.ProfileScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
 
 @Composable
@@ -108,16 +112,30 @@ fun AppNavHost(
             FlowCompleteScreen()
         }
         composable(MainRoutes.driver) {
-            DriverHomeScreen()
+            DriverHomeScreen(navController = navController)
         }
         composable(MainRoutes.operator) {
-            OperatorHomeScreen()
+            OperatorHomeScreen(navController = navController)
         }
         composable(MainRoutes.supervisor) {
-            SupervisorHomeScreen()
+            SupervisorHomeScreen(navController = navController)
         }
         composable(MainRoutes.engineer) {
-            EngineerHomeScreen()
+            EngineerHomeScreen(navController = navController)
+        }
+        composable(
+            route = MainRoutes.profile,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                ProfileScreen(role = role, navController = navController)
+            }
         }
     }
 }
