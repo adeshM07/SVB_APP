@@ -58,3 +58,9 @@ fun dieselTabIndex(role: UserRole): Int? = when (role) {
     UserRole.Engineer -> 2
     else -> null
 }
+
+/** Bottom-nav index of Loadings for Operator [OperatorLoadingsScreen]; null for other roles. */
+fun loadingsTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Operator -> 1
+    else -> null
+}

@@ -45,6 +45,7 @@ import com.svb.fieldops.domain.model.UserRole
 import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
+import com.svb.fieldops.presentation.navigation.loadingsTabIndex
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.ui.theme.SvbBlack
 import com.svb.fieldops.ui.theme.SvbCardMuted
@@ -58,6 +59,7 @@ fun OperatorHomeScreen(navController: NavHostController) {
     val navItems = bottomNavItemsForRole(role)
     val profileIdx = profileTabIndex(role)
     val fuelIdx = fuelTabIndex(role)
+    val loadingsIdx = loadingsTabIndex(role)
     var selectedTab by remember { mutableIntStateOf(0) }
     HomeBottomTabResetFromProfileEffect(navController) { selectedTab = 0 }
 
@@ -73,6 +75,8 @@ fun OperatorHomeScreen(navController: NavHostController) {
                     when {
                         index == profileIdx ->
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                        loadingsIdx != null && index == loadingsIdx ->
+                            navController.navigate(MainRoutes.loadings(role)) { launchSingleTop = true }
                         fuelIdx != null && index == fuelIdx ->
                             navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
                     }

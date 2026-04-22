@@ -58,6 +58,7 @@ import com.svb.fieldops.presentation.components.SvbPrimaryButton
 import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
+import com.svb.fieldops.presentation.navigation.loadingsTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.presentation.screens.home.HomeCardShape
@@ -96,6 +97,7 @@ fun HsdFuelScreen(
     val items = bottomNavItemsForRole(role)
     val fuelIdx = requireNotNull(fuelTabIndex(role)) { "HsdFuelScreen is only for Driver, Operator, and Supervisor." }
     val profileIdx = profileTabIndex(role)
+    val loadingsIdx = loadingsTabIndex(role)
     val scroll = rememberScrollState()
 
     val capacityL = 60
@@ -154,6 +156,8 @@ fun HsdFuelScreen(
                         index == fuelIdx -> Unit
                         index == profileIdx ->
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                        loadingsIdx != null && index == loadingsIdx ->
+                            navController.navigate(MainRoutes.loadings(role)) { launchSingleTop = true }
                         else -> navController.popRoleHomeWithHomeTabSelected()
                     }
                 },
