@@ -47,8 +47,10 @@ import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
 import com.svb.fieldops.presentation.navigation.loadingsTabIndex
 import com.svb.fieldops.presentation.navigation.tripsTabIndex
+import com.svb.fieldops.presentation.navigation.verifyTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
 import com.svb.fieldops.presentation.navigation.profileTabIndex
+import com.svb.fieldops.presentation.navigation.reportsTabIndex
 import com.svb.fieldops.presentation.screens.home.HomeCardShape
 import com.svb.fieldops.presentation.screens.home.HomeRoleNavigationBar
 import com.svb.fieldops.ui.theme.SvbBlack
@@ -120,6 +122,8 @@ fun ProfileScreen(
     val fuelIdx = fuelTabIndex(role)
     val loadingsIdx = loadingsTabIndex(role)
     val tripsIdx = tripsTabIndex(role)
+    val verifyIdx = verifyTabIndex(role)
+    val reportsIdx = reportsTabIndex(role)
     val scroll = rememberScrollState()
 
     Scaffold(
@@ -135,6 +139,10 @@ fun ProfileScreen(
                             navController.navigate(MainRoutes.loadings(role)) { launchSingleTop = true }
                         tripsIdx != null && index == tripsIdx ->
                             navController.navigate(MainRoutes.trips(role)) { launchSingleTop = true }
+                        verifyIdx != null && index == verifyIdx ->
+                            navController.navigate(MainRoutes.verifyStartDuty(role)) { launchSingleTop = true }
+                        reportsIdx != null && index == reportsIdx ->
+                            navController.navigate(MainRoutes.reports(role)) { launchSingleTop = true }
                         fuelIdx != null && index == fuelIdx ->
                             navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
                         else -> navController.popRoleHomeWithHomeTabSelected()

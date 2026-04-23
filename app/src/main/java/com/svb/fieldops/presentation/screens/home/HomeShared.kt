@@ -151,7 +151,9 @@ internal fun HomeHeaderBar(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = "Notifications",
                         tint = SvbBlack,
-                        modifier = Modifier.size(22.dp),
+                        modifier = Modifier
+                            .size(22.dp)
+                            .padding(end = 5.dp),
                     )
                 }
                 if (notificationDot) {

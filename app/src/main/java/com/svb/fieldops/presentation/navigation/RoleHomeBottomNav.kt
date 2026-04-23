@@ -70,3 +70,15 @@ fun tripsTabIndex(role: UserRole): Int? = when (role) {
     UserRole.Driver -> 1
     else -> null
 }
+
+/** Bottom-nav index of Verify for Supervisor [SupervisorVerifyStartDutyScreen]; null for other roles. */
+fun verifyTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Supervisor -> 1
+    else -> null
+}
+
+/** Bottom-nav index of Reports for Supervisor [SupervisorReportsScreen]; null for other roles. */
+fun reportsTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Supervisor -> 2
+    else -> null
+}

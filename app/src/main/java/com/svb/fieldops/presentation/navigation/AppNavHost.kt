@@ -27,7 +27,9 @@ import com.svb.fieldops.presentation.screens.diesel.EngineerDieselScreen
 import com.svb.fieldops.presentation.screens.fuel.HsdFuelScreen
 import com.svb.fieldops.presentation.screens.loadings.OperatorLoadingsScreen
 import com.svb.fieldops.presentation.screens.trips.DriverTodaysTripsScreen
+import com.svb.fieldops.presentation.screens.verify.SupervisorVerifyStartDutyScreen
 import com.svb.fieldops.presentation.screens.profile.ProfileScreen
+import com.svb.fieldops.presentation.screens.reports.SupervisorReportsScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
 
 @Composable
@@ -197,5 +199,34 @@ fun AppNavHost(
                 DriverTodaysTripsScreen(role = role, navController = navController)
             }
         }
+        composable(
+            route = MainRoutes.verifyStartDutyRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsSupervisorVerifyStartDutyScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorVerifyStartDutyScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+    route = MainRoutes.reportsRoute,
+    arguments = listOf(
+        navArgument("role") { type = NavType.StringType },
+    ),
+) { entry ->
+    val raw = entry.arguments?.getString("role")
+    val role = parseUserRoleFromArg(raw)
+    if (role == null || !role.supportsSupervisorReportsScreen()) {
+        LaunchedEffect(Unit) { navController.popBackStack() }
+    } else {
+        SupervisorReportsScreen(role = role, navController = navController)
+
+    }
+}
     }
 }

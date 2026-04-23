@@ -8,14 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.FactCheck
-import androidx.compose.material.icons.outlined.InsertChart
 import androidx.compose.material.icons.outlined.Build
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocalGasStation
 import androidx.compose.material.icons.outlined.LocalShipping
 import androidx.compose.material.icons.outlined.Person
@@ -34,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -43,6 +42,8 @@ import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
 import com.svb.fieldops.presentation.navigation.profileTabIndex
+import com.svb.fieldops.presentation.navigation.reportsTabIndex
+import com.svb.fieldops.presentation.navigation.verifyTabIndex
 import com.svb.fieldops.ui.theme.SvbBlack
 import com.svb.fieldops.ui.theme.SvbCardMuted
 import com.svb.fieldops.ui.theme.SvbLoginBackground
@@ -55,6 +56,8 @@ fun SupervisorHomeScreen(navController: NavHostController) {
     val navItems = bottomNavItemsForRole(role)
     val profileIdx = profileTabIndex(role)
     val fuelIdx = fuelTabIndex(role)
+    val verifyIdx = verifyTabIndex(role)
+    val reportsIdx = requireNotNull(reportsTabIndex(role)) { "Supervisor has Reports tab." }
     var selectedTab by remember { mutableIntStateOf(0) }
     HomeBottomTabResetFromProfileEffect(navController) { selectedTab = 0 }
 
@@ -70,6 +73,10 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     when {
                         index == profileIdx ->
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                        verifyIdx != null && index == verifyIdx ->
+                            navController.navigate(MainRoutes.verifyStartDuty(role)) { launchSingleTop = true }
+                        index == reportsIdx ->
+                            navController.navigate(MainRoutes.reports(role)) { launchSingleTop = true }
                         fuelIdx != null && index == fuelIdx ->
                             navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
                     }
@@ -107,37 +114,38 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                 MetricMiniCard("3", "Pending Verify", Modifier.weight(1f))
                 MetricMiniCard("1", "Issues", Modifier.weight(1f))
             }
-            Spacer(Modifier.height(22.dp))
+            Spacer(Modifier.height(16.dp))
+            SectionTitle("PENDING VERIFICATIONS")
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = HomeCardShape,
                 colors = CardDefaults.cardColors(containerColor = SvbCardMuted),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             ) {
-                Column(Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
-                    SectionHeaderRow(
-                        title = "PENDING VERIFICATIONS",
-                        trailing = {
-                            Surface(
-                                shape = RoundedCornerShape(999.dp),
-                                color = SvbWhite,
-                            ) {
-                                Text(
-                                    text = "3 pending",
-                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    color = SvbBlack,
-                                )
-                            }
-                        },
-                    )
-                    Spacer(Modifier.height(2.dp))
-                    Text(
-                        text = "Verify your team",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = SvbN2,
-                    )
+                Column(Modifier.padding(18.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "Verify your team",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = SvbN2,
+                        )
+                        Surface(
+                            shape = RoundedCornerShape(999.dp),
+                            color = SvbWhite,
+                        ) {
+                            Text(
+                                text = "3 pending",
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = SvbBlack,
+                            )
+                        }
+                    }
                     Spacer(Modifier.height(12.dp))
                     GroupedActionCard(containerColor = SvbWhite) {
                         ActionTileRow(
@@ -173,16 +181,14 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     icon = Icons.AutoMirrored.Outlined.FactCheck,
                     title = "Verify Start Duty",
                     subtitle = "Approve operator start requests",
-                    onClick = {},
-                    iconContainerColor = SvbWhite,
+                    onClick = { navController.navigate(MainRoutes.verifyStartDuty(role)) { launchSingleTop = true } },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
                     icon = Icons.Outlined.Route,
                     title = "Verify Trips",
                     subtitle = "Cross-check tipper loadings",
-                    onClick = {},
-                    iconContainerColor = SvbWhite,
+                    onClick = { navController.navigate(MainRoutes.reports(role)) { launchSingleTop = true } },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
@@ -190,7 +196,6 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     title = "Verify HSD Requests",
                     subtitle = "Check operator fuel requests",
                     onClick = {},
-                    iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
@@ -198,7 +203,6 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     title = "Close Breakdowns",
                     subtitle = "Mark resolved issues",
                     onClick = {},
-                    iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
@@ -206,7 +210,6 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     title = "Report Breakdown",
                     subtitle = "Log a site machine issue",
                     onClick = {},
-                    iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
@@ -214,7 +217,6 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     title = "Request HSD (Self)",
                     subtitle = "Raise own diesel request",
                     onClick = {},
-                    iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
@@ -222,9 +224,10 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     title = "End Job",
                     subtitle = "Close shift and submit log",
                     onClick = {},
-                    iconContainerColor = SvbWhite,
                 )
             }
+            Spacer(Modifier.height(12.dp))
+            HomeFuelStatusCard(circularIconBackground = false)
             Spacer(Modifier.height(24.dp))
         }
     }
