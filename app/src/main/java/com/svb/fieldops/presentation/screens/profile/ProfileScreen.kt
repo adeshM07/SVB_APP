@@ -43,7 +43,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
 import com.svb.fieldops.presentation.navigation.MainRoutes
+import com.svb.fieldops.presentation.navigation.approvalsTabIndex
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
+import com.svb.fieldops.presentation.navigation.dieselTabIndex
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
 import com.svb.fieldops.presentation.navigation.loadingsTabIndex
 import com.svb.fieldops.presentation.navigation.tripsTabIndex
@@ -119,6 +121,8 @@ fun ProfileScreen(
     val demo = profileDemoFor(role)
     val items = bottomNavItemsForRole(role)
     val profileIdx = profileTabIndex(role)
+    val approvalsIdx = approvalsTabIndex(role)
+    val dieselIdx = dieselTabIndex(role)
     val fuelIdx = fuelTabIndex(role)
     val loadingsIdx = loadingsTabIndex(role)
     val tripsIdx = tripsTabIndex(role)
@@ -145,6 +149,10 @@ fun ProfileScreen(
                             navController.navigate(MainRoutes.reports(role)) { launchSingleTop = true }
                         fuelIdx != null && index == fuelIdx ->
                             navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
+                        approvalsIdx != null && index == approvalsIdx ->
+                            navController.navigate(MainRoutes.approvals(role)) { launchSingleTop = true }
+                        dieselIdx != null && index == dieselIdx ->
+                            navController.navigate(MainRoutes.diesel(role)) { launchSingleTop = true }
                         else -> navController.popRoleHomeWithHomeTabSelected()
                     }
                 },

@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
 import com.svb.fieldops.presentation.navigation.MainRoutes
+import com.svb.fieldops.presentation.navigation.approvalsTabIndex
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.dieselTabIndex
 import com.svb.fieldops.presentation.navigation.profileTabIndex
@@ -69,6 +70,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
     val navItems = bottomNavItemsForRole(role)
     val profileIdx = profileTabIndex(role)
     val dieselIdx = dieselTabIndex(role)
+    val approvalsIdx = requireNotNull(approvalsTabIndex(role)) { "Engineer has Approvals tab." }
     var selectedTab by remember { mutableIntStateOf(0) }
     HomeBottomTabResetFromProfileEffect(navController) { selectedTab = 0 }
 
@@ -80,12 +82,14 @@ fun EngineerHomeScreen(navController: NavHostController) {
                 items = navItems,
                 selectedIndex = selectedTab,
                 onSelect = { index ->
-                    selectedTab = index
                     when {
                         index == profileIdx ->
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                        index == approvalsIdx ->
+                            navController.navigate(MainRoutes.approvals(role)) { launchSingleTop = true }
                         dieselIdx != null && index == dieselIdx ->
                             navController.navigate(MainRoutes.diesel(role)) { launchSingleTop = true }
+                        else -> selectedTab = index
                     }
                 },
             )
@@ -113,7 +117,9 @@ fun EngineerHomeScreen(navController: NavHostController) {
                 timerAndFooterAlignStart = true,
             )
             Spacer(Modifier.height(16.dp))
-            PendingApprovalsAlertCard()
+            PendingApprovalsAlertCard(
+                onClick = { navController.navigate(MainRoutes.approvals(role)) { launchSingleTop = true } },
+            )
             Spacer(Modifier.height(16.dp))
             HsdInventoryCard()
             Spacer(Modifier.height(16.dp))
@@ -132,7 +138,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.TaskAlt,
                     title = "Approvals",
                     subtitle = "7 requests pending",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.approvals(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
@@ -198,11 +204,11 @@ fun EngineerHomeScreen(navController: NavHostController) {
 }
 
 @Composable
-private fun PendingApprovalsAlertCard() {
+private fun PendingApprovalsAlertCard(onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = {}),
+            .clickable(onClick = onClick),
         shape = HomeCardShape,
         colors = CardDefaults.cardColors(containerColor = SvbRoseTint),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),

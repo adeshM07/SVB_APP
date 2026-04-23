@@ -29,6 +29,7 @@ import com.svb.fieldops.presentation.screens.loadings.OperatorLoadingsScreen
 import com.svb.fieldops.presentation.screens.trips.DriverTodaysTripsScreen
 import com.svb.fieldops.presentation.screens.verify.SupervisorVerifyStartDutyScreen
 import com.svb.fieldops.presentation.screens.profile.ProfileScreen
+import com.svb.fieldops.presentation.screens.approvals.EngineerApprovalsScreen
 import com.svb.fieldops.presentation.screens.reports.SupervisorReportsScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
 
@@ -214,19 +215,32 @@ fun AppNavHost(
             }
         }
         composable(
-    route = MainRoutes.reportsRoute,
-    arguments = listOf(
-        navArgument("role") { type = NavType.StringType },
-    ),
-) { entry ->
-    val raw = entry.arguments?.getString("role")
-    val role = parseUserRoleFromArg(raw)
-    if (role == null || !role.supportsSupervisorReportsScreen()) {
-        LaunchedEffect(Unit) { navController.popBackStack() }
-    } else {
-        SupervisorReportsScreen(role = role, navController = navController)
-
-    }
-}
+            route = MainRoutes.reportsRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsSupervisorReportsScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorReportsScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.approvalsRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsEngineerApprovalsScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerApprovalsScreen(role = role, navController = navController)
+            }
+        }
     }
 }

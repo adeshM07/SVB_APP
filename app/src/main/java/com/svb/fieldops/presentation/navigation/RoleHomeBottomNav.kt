@@ -82,3 +82,15 @@ fun reportsTabIndex(role: UserRole): Int? = when (role) {
     UserRole.Supervisor -> 2
     else -> null
 }
+
+/** Bottom-nav index of Approvals for Engineer [EngineerApprovalsScreen]; null for other roles. */
+fun approvalsTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Engineer -> 1
+    else -> null
+}
+
+/** Bottom-nav index of DPR for Engineer (placeholder until DPR screen exists); null for other roles. */
+fun dprTabIndex(role: UserRole): Int? = when (role) {
+    UserRole.Engineer -> 3
+    else -> null
+}

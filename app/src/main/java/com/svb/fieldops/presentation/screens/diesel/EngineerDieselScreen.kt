@@ -64,6 +64,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
 import com.svb.fieldops.presentation.navigation.MainRoutes
+import com.svb.fieldops.presentation.navigation.approvalsTabIndex
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.dieselTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
@@ -129,6 +130,7 @@ fun EngineerDieselScreen(
 ) {
     val items = bottomNavItemsForRole(role)
     val dieselIdx = requireNotNull(dieselTabIndex(role)) { "Diesel inventory is Engineer-only." }
+    val approvalsIdx = requireNotNull(approvalsTabIndex(role)) { "Engineer has Approvals tab." }
     val profileIdx = profileTabIndex(role)
     val scroll = rememberScrollState()
     var ledgerFilter by remember { mutableIntStateOf(0) }
@@ -243,6 +245,8 @@ fun EngineerDieselScreen(
                         index == dieselIdx -> Unit
                         index == profileIdx ->
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                        index == approvalsIdx ->
+                            navController.navigate(MainRoutes.approvals(role)) { launchSingleTop = true }
                         else -> navController.popRoleHomeWithHomeTabSelected()
                     }
                 },
