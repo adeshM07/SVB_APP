@@ -30,6 +30,8 @@ import com.svb.fieldops.presentation.screens.trips.DriverTodaysTripsScreen
 import com.svb.fieldops.presentation.screens.verify.SupervisorVerifyStartDutyScreen
 import com.svb.fieldops.presentation.screens.profile.ProfileScreen
 import com.svb.fieldops.presentation.screens.approvals.EngineerApprovalsScreen
+import com.svb.fieldops.presentation.screens.dpr.EngineerDprScreen
+import com.svb.fieldops.presentation.screens.zones.EngineerZoneWorkPlanScreen
 import com.svb.fieldops.presentation.screens.reports.SupervisorReportsScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
 
@@ -240,6 +242,34 @@ fun AppNavHost(
                 LaunchedEffect(Unit) { navController.popBackStack() }
             } else {
                 EngineerApprovalsScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.dprRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsEngineerDprScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerDprScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.zoneWorkPlanRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsEngineerZoneWorkPlanScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerZoneWorkPlanScreen(role = role, navController = navController)
             }
         }
     }

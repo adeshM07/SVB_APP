@@ -52,6 +52,7 @@ import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.approvalsTabIndex
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.dieselTabIndex
+import com.svb.fieldops.presentation.navigation.dprTabIndex
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.ui.theme.SvbBlack
 import com.svb.fieldops.ui.theme.SvbCardMuted
@@ -71,6 +72,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
     val profileIdx = profileTabIndex(role)
     val dieselIdx = dieselTabIndex(role)
     val approvalsIdx = requireNotNull(approvalsTabIndex(role)) { "Engineer has Approvals tab." }
+    val dprIdx = requireNotNull(dprTabIndex(role)) { "Engineer has DPR tab." }
     var selectedTab by remember { mutableIntStateOf(0) }
     HomeBottomTabResetFromProfileEffect(navController) { selectedTab = 0 }
 
@@ -89,6 +91,8 @@ fun EngineerHomeScreen(navController: NavHostController) {
                             navController.navigate(MainRoutes.approvals(role)) { launchSingleTop = true }
                         dieselIdx != null && index == dieselIdx ->
                             navController.navigate(MainRoutes.diesel(role)) { launchSingleTop = true }
+                        index == dprIdx ->
+                            navController.navigate(MainRoutes.dpr(role)) { launchSingleTop = true }
                         else -> selectedTab = index
                     }
                 },
@@ -154,7 +158,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.AutoMirrored.Outlined.Assignment,
                     title = "Daily Project Report",
                     subtitle = "Submit today's site report",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.dpr(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
@@ -162,7 +166,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.PinDrop,
                     title = "Assign Zones",
                     subtitle = "Allocate machines to zones",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.zoneWorkPlan(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()

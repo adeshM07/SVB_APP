@@ -89,7 +89,7 @@ fun approvalsTabIndex(role: UserRole): Int? = when (role) {
     else -> null
 }
 
-/** Bottom-nav index of DPR for Engineer (placeholder until DPR screen exists); null for other roles. */
+/** Bottom-nav index of DPR for Engineer [EngineerDprScreen]; null for other roles. */
 fun dprTabIndex(role: UserRole): Int? = when (role) {
     UserRole.Engineer -> 3
     else -> null

@@ -16,6 +16,8 @@ object MainRoutes {
     const val verifyStartDutyRoute = "main/verify-start-duty/{role}"
     const val reportsRoute = "main/reports/{role}"
     const val approvalsRoute = "main/approvals/{role}"
+    const val dprRoute = "main/dpr/{role}"
+    const val zoneWorkPlanRoute = "main/zone-work-plan/{role}"
 
     fun profile(role: UserRole): String = "main/profile/${role.name.lowercase()}"
     fun fuel(role: UserRole): String = "main/fuel/${role.name.lowercase()}"
@@ -25,6 +27,8 @@ object MainRoutes {
     fun verifyStartDuty(role: UserRole): String = "main/verify-start-duty/${role.name.lowercase()}"
     fun reports(role: UserRole): String = "main/reports/${role.name.lowercase()}"
     fun approvals(role: UserRole): String = "main/approvals/${role.name.lowercase()}"
+    fun dpr(role: UserRole): String = "main/dpr/${role.name.lowercase()}"
+    fun zoneWorkPlan(role: UserRole): String = "main/zone-work-plan/${role.name.lowercase()}"
 }
 
 fun parseUserRoleFromArg(arg: String?): UserRole? = when (arg?.lowercase()) {
@@ -69,3 +73,7 @@ fun UserRole.supportsSupervisorVerifyStartDutyScreen(): Boolean = this == UserRo
 fun UserRole.supportsSupervisorReportsScreen(): Boolean = this == UserRole.Supervisor
 
 fun UserRole.supportsEngineerApprovalsScreen(): Boolean = this == UserRole.Engineer
+
+fun UserRole.supportsEngineerDprScreen(): Boolean = this == UserRole.Engineer
+
+fun UserRole.supportsEngineerZoneWorkPlanScreen(): Boolean = this == UserRole.Engineer

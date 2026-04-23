@@ -64,6 +64,7 @@ import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.approvalsTabIndex
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.dieselTabIndex
+import com.svb.fieldops.presentation.navigation.dprTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.presentation.screens.home.HomeCardShape
@@ -129,6 +130,7 @@ fun EngineerApprovalsScreen(
     val items = bottomNavItemsForRole(role)
     val approvalsIdx = requireNotNull(approvalsTabIndex(role)) { "EngineerApprovalsScreen is Engineer-only." }
     val dieselIdx = requireNotNull(dieselTabIndex(role)) { "Engineer has Diesel tab." }
+    val dprIdx = requireNotNull(dprTabIndex(role)) { "Engineer has DPR tab." }
     val profileIdx = profileTabIndex(role)
     val scroll = rememberScrollState()
 
@@ -307,6 +309,8 @@ fun EngineerApprovalsScreen(
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
                         index == dieselIdx ->
                             navController.navigate(MainRoutes.diesel(role)) { launchSingleTop = true }
+                        index == dprIdx ->
+                            navController.navigate(MainRoutes.dpr(role)) { launchSingleTop = true }
                         else -> navController.popRoleHomeWithHomeTabSelected()
                     }
                 },
