@@ -25,6 +25,7 @@ object MainRoutes {
     const val endJobSiteRoute = "main/end-job-site/{role}"
     const val openBreakdownsRoute = "main/open-breakdowns/{role}"
     const val closeBreakdownRoute = "main/close-breakdown/{role}/{breakdownId}"
+    const val reportBreakdownRoute = "main/report-breakdown/{role}"
 
     fun profile(role: UserRole): String = "main/profile/${role.name.lowercase()}"
     fun fuel(role: UserRole): String = "main/fuel/${role.name.lowercase()}"
@@ -45,6 +46,7 @@ object MainRoutes {
     fun openBreakdowns(role: UserRole): String = "main/open-breakdowns/${role.name.lowercase()}"
     fun closeBreakdown(role: UserRole, breakdownId: String): String =
         "main/close-breakdown/${role.name.lowercase()}/$breakdownId"
+    fun reportBreakdown(role: UserRole): String = "main/report-breakdown/${role.name.lowercase()}"
 }
 
 fun parseUserRoleFromArg(arg: String?): UserRole? = when (arg?.lowercase()) {
@@ -99,6 +101,8 @@ fun UserRole.supportsSupervisorVerifyHsdRequestsScreen(): Boolean = this == User
 fun UserRole.supportsSupervisorVerifyHsdRequestFlowScreen(): Boolean = this == UserRole.Supervisor
 
 fun UserRole.supportsSupervisorReportsScreen(): Boolean = this == UserRole.Supervisor
+
+fun UserRole.supportsSupervisorReportBreakdownScreen(): Boolean = this == UserRole.Supervisor
 
 fun UserRole.supportsEngineerApprovalsScreen(): Boolean = this == UserRole.Engineer
 

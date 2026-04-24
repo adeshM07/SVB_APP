@@ -36,6 +36,7 @@ import com.svb.fieldops.presentation.screens.approvals.EngineerApprovalsScreen
 import com.svb.fieldops.presentation.screens.dpr.EngineerDprScreen
 import com.svb.fieldops.presentation.screens.breakdowns.EngineerCloseBreakdownScreen
 import com.svb.fieldops.presentation.screens.breakdowns.EngineerOpenBreakdownsScreen
+import com.svb.fieldops.presentation.screens.breakdowns.SupervisorReportBreakdownScreen
 import com.svb.fieldops.presentation.screens.endjob.EngineerEndJobSiteScreen
 import com.svb.fieldops.presentation.screens.sitestart.EngineerVerifySiteStartScreen
 import com.svb.fieldops.presentation.screens.zones.EngineerZoneWorkPlanScreen
@@ -235,6 +236,20 @@ fun AppNavHost(
                 LaunchedEffect(Unit) { navController.popBackStack() }
             } else {
                 SupervisorVerifyTripScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.reportBreakdownRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsSupervisorReportBreakdownScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorReportBreakdownScreen(role = role, navController = navController)
             }
         }
         composable(

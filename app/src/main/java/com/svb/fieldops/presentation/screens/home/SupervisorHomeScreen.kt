@@ -211,7 +211,9 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.ReportProblem,
                     title = "Report Breakdown",
                     subtitle = "Log a site machine issue",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.reportBreakdown(role)) { launchSingleTop = true }
+                    },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
