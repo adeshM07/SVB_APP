@@ -53,6 +53,7 @@ import com.svb.fieldops.domain.model.UserRole
 import com.svb.fieldops.presentation.navigation.MainRoutes
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
+import com.svb.fieldops.presentation.navigation.loadingsTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.presentation.navigation.tripsTabIndex
@@ -87,7 +88,6 @@ fun DriverStartJobScreen(
 ) {
     val items = bottomNavItemsForRole(role)
     val homeIdx = 0
-    val tripsIdx = requireNotNull(tripsTabIndex(role)) { "Driver only." }
     val fuelIdx = requireNotNull(fuelTabIndex(role))
     val profileIdx = profileTabIndex(role)
     val scroll = rememberScrollState()
@@ -137,14 +137,33 @@ fun DriverStartJobScreen(
                 items = items,
                 selectedIndex = homeIdx,
                 onSelect = { index ->
-                    when {
-                        index == homeIdx -> Unit
-                        index == tripsIdx ->
-                            navController.navigate(MainRoutes.trips(role)) { launchSingleTop = true }
-                        index == fuelIdx ->
-                            navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
-                        index == profileIdx ->
-                            navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                    when (role) {
+                        UserRole.Driver -> {
+                            val tripsIdx = requireNotNull(tripsTabIndex(role))
+                            when {
+                                index == homeIdx -> Unit
+                                index == tripsIdx ->
+                                    navController.navigate(MainRoutes.trips(role)) { launchSingleTop = true }
+                                index == fuelIdx ->
+                                    navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
+                                index == profileIdx ->
+                                    navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                                else -> navController.popRoleHomeWithHomeTabSelected()
+                            }
+                        }
+                        UserRole.Operator -> {
+                            val loadingsIdx = requireNotNull(loadingsTabIndex(role))
+                            when {
+                                index == homeIdx -> Unit
+                                index == loadingsIdx ->
+                                    navController.navigate(MainRoutes.loadings(role)) { launchSingleTop = true }
+                                index == fuelIdx ->
+                                    navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
+                                index == profileIdx ->
+                                    navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                                else -> navController.popRoleHomeWithHomeTabSelected()
+                            }
+                        }
                         else -> navController.popRoleHomeWithHomeTabSelected()
                     }
                 },

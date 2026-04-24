@@ -122,9 +122,11 @@ fun UserRole.supportsOperatorLoadingsScreen(): Boolean = this == UserRole.Operat
 
 fun UserRole.supportsDriverTripsScreen(): Boolean = this == UserRole.Driver
 
-fun UserRole.supportsDriverStartJobScreen(): Boolean = this == UserRole.Driver
+fun UserRole.supportsDriverStartJobScreen(): Boolean =
+    this == UserRole.Driver || this == UserRole.Operator
 
-fun UserRole.supportsDriverEndJobScreen(): Boolean = this == UserRole.Driver
+fun UserRole.supportsDriverEndJobScreen(): Boolean =
+    this == UserRole.Driver || this == UserRole.Operator
 
 fun UserRole.supportsRequestSwapScreen(): Boolean =
     this == UserRole.Driver || this == UserRole.Operator
@@ -139,9 +141,9 @@ fun UserRole.supportsSupervisorVerifyHsdRequestFlowScreen(): Boolean = this == U
 
 fun UserRole.supportsSupervisorReportsScreen(): Boolean = this == UserRole.Supervisor
 
-/** Supervisor + Driver share [com.svb.fieldops.presentation.screens.breakdowns.SupervisorReportBreakdownScreen]. */
+/** Supervisor, Driver, and Operator share [com.svb.fieldops.presentation.screens.breakdowns.SupervisorReportBreakdownScreen]. */
 fun UserRole.supportsReportBreakdownScreen(): Boolean =
-    this == UserRole.Supervisor || this == UserRole.Driver
+    this == UserRole.Supervisor || this == UserRole.Driver || this == UserRole.Operator
 
 fun UserRole.supportsSupervisorEndJobScreen(): Boolean = this == UserRole.Supervisor
 

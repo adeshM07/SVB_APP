@@ -181,21 +181,27 @@ fun OperatorHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.PlayCircle,
                     title = "Start Job",
                     subtitle = "Scan machine QR & begin duty",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.startJob(role)) { launchSingleTop = true }
+                    },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
                     icon = Icons.Outlined.StopCircle,
                     title = "End Job",
                     subtitle = "Close your current duty",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.driverEndJob(role)) { launchSingleTop = true }
+                    },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
                     icon = Icons.Outlined.ReportProblem,
                     title = "Report Breakdown",
                     subtitle = "Log a machine issue",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.reportBreakdown(role)) { launchSingleTop = true }
+                    },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
