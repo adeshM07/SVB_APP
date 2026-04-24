@@ -220,14 +220,18 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.LocalGasStation,
                     title = "Request HSD (Self)",
                     subtitle = "Raise own diesel request",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
+                    },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
                     icon = Icons.Outlined.StopCircle,
                     title = "End Job",
                     subtitle = "Close shift and submit log",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.endJobSupervisor(role)) { launchSingleTop = true }
+                    },
                 )
             }
             Spacer(Modifier.height(12.dp))

@@ -19,6 +19,8 @@ import com.svb.fieldops.presentation.screens.GeofenceVerifiedScreen
 import com.svb.fieldops.presentation.screens.LoginScreen
 import com.svb.fieldops.presentation.screens.SelfieCaptureScreen
 import com.svb.fieldops.presentation.screens.SplashScreen
+import com.svb.fieldops.presentation.screens.driver.DriverEndJobScreen
+import com.svb.fieldops.presentation.screens.driver.DriverStartJobScreen
 import com.svb.fieldops.presentation.screens.home.DriverHomeScreen
 import com.svb.fieldops.presentation.screens.home.EngineerHomeScreen
 import com.svb.fieldops.presentation.screens.home.OperatorHomeScreen
@@ -38,9 +40,11 @@ import com.svb.fieldops.presentation.screens.breakdowns.EngineerCloseBreakdownSc
 import com.svb.fieldops.presentation.screens.breakdowns.EngineerOpenBreakdownsScreen
 import com.svb.fieldops.presentation.screens.breakdowns.SupervisorReportBreakdownScreen
 import com.svb.fieldops.presentation.screens.endjob.EngineerEndJobSiteScreen
+import com.svb.fieldops.presentation.screens.endjob.SupervisorEndJobScreen
 import com.svb.fieldops.presentation.screens.sitestart.EngineerVerifySiteStartScreen
 import com.svb.fieldops.presentation.screens.zones.EngineerZoneWorkPlanScreen
 import com.svb.fieldops.presentation.screens.reports.SupervisorReportsScreen
+import com.svb.fieldops.presentation.screens.swap.RequestSwapScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
 
 @Composable
@@ -211,6 +215,48 @@ fun AppNavHost(
             }
         }
         composable(
+            route = MainRoutes.startJobDriverRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsDriverStartJobScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                DriverStartJobScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.driverEndJobRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsDriverEndJobScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                DriverEndJobScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.requestSwapRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsRequestSwapScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                RequestSwapScreen(role = role, navController = navController)
+            }
+        }
+        composable(
             route = MainRoutes.verifyStartDutyRoute,
             arguments = listOf(
                 navArgument("role") { type = NavType.StringType },
@@ -235,7 +281,23 @@ fun AppNavHost(
             if (role == null || !role.supportsSupervisorVerifyTripScreen()) {
                 LaunchedEffect(Unit) { navController.popBackStack() }
             } else {
-                SupervisorVerifyTripScreen(role = role, navController = navController)
+                SupervisorVerifyTripScreen(role = role, navController = navController, endJobMachineId = null)
+            }
+        }
+        composable(
+            route = MainRoutes.verifyTripEndJobRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+                navArgument("machineId") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            val machineId = entry.arguments?.getString("machineId")
+            if (role == null || machineId.isNullOrBlank() || !role.supportsSupervisorVerifyTripScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorVerifyTripScreen(role = role, navController = navController, endJobMachineId = machineId)
             }
         }
         composable(
@@ -246,10 +308,24 @@ fun AppNavHost(
         ) { entry ->
             val raw = entry.arguments?.getString("role")
             val role = parseUserRoleFromArg(raw)
-            if (role == null || !role.supportsSupervisorReportBreakdownScreen()) {
+            if (role == null || !role.supportsReportBreakdownScreen()) {
                 LaunchedEffect(Unit) { navController.popBackStack() }
             } else {
                 SupervisorReportBreakdownScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.endJobSupervisorRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsSupervisorEndJobScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorEndJobScreen(role = role, navController = navController)
             }
         }
         composable(

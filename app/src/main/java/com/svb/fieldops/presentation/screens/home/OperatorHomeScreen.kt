@@ -202,7 +202,9 @@ fun OperatorHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.SwapHoriz,
                     title = "Request Swap",
                     subtitle = "Requires engineer approval",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.requestSwap(role)) { launchSingleTop = true }
+                    },
                 )
             }
             Spacer(Modifier.height(12.dp))

@@ -61,6 +61,7 @@ import com.svb.fieldops.presentation.navigation.fuelTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.presentation.navigation.reportsTabIndex
+import com.svb.fieldops.presentation.navigation.tripsTabIndex
 import com.svb.fieldops.presentation.navigation.verifyTabIndex
 import com.svb.fieldops.presentation.screens.home.HomeCardShape
 import com.svb.fieldops.presentation.screens.home.HomeRoleNavigationBar
@@ -96,8 +97,6 @@ fun SupervisorReportBreakdownScreen(
 ) {
     val items = bottomNavItemsForRole(role)
     val homeIdx = 0
-    val verifyIdx = requireNotNull(verifyTabIndex(role)) { "Supervisor only." }
-    val reportsIdx = requireNotNull(reportsTabIndex(role))
     val fuelIdx = requireNotNull(fuelTabIndex(role))
     val profileIdx = profileTabIndex(role)
     val scroll = rememberScrollState()
@@ -131,24 +130,26 @@ fun SupervisorReportBreakdownScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* later: notifications */ }) {
-                        Box(Modifier.size(48.dp)) {
-                            Icon(
-                                Icons.Outlined.Notifications,
-                                contentDescription = "Notifications",
-                                tint = SvbBlack,
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .padding(end = 6.dp),
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(top = 10.dp, end = 8.dp)
-                                    .size(8.dp)
-                                    .clip(CircleShape)
-                                    .background(SvbDanger),
-                            )
+                    if (role == UserRole.Supervisor) {
+                        IconButton(onClick = { /* later: notifications */ }) {
+                            Box(Modifier.size(48.dp)) {
+                                Icon(
+                                    Icons.Outlined.Notifications,
+                                    contentDescription = "Notifications",
+                                    tint = SvbBlack,
+                                    modifier = Modifier
+                                        .align(Alignment.Center)
+                                        .padding(end = 6.dp),
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(top = 10.dp, end = 8.dp)
+                                        .size(8.dp)
+                                        .clip(CircleShape)
+                                        .background(SvbDanger),
+                                )
+                            }
                         }
                     }
                 },
@@ -163,17 +164,37 @@ fun SupervisorReportBreakdownScreen(
                 items = items,
                 selectedIndex = homeIdx,
                 onSelect = { index ->
-                    when {
-                        index == homeIdx ->
-                            navController.popRoleHomeWithHomeTabSelected()
-                        index == verifyIdx ->
-                            navController.navigate(MainRoutes.verifyStartDuty(role)) { launchSingleTop = true }
-                        index == reportsIdx ->
-                            navController.navigate(MainRoutes.reports(role)) { launchSingleTop = true }
-                        index == fuelIdx ->
-                            navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
-                        index == profileIdx ->
-                            navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                    when (role) {
+                        UserRole.Driver -> {
+                            val tripsIdx = requireNotNull(tripsTabIndex(role))
+                            when {
+                                index == homeIdx -> Unit
+                                index == tripsIdx ->
+                                    navController.navigate(MainRoutes.trips(role)) { launchSingleTop = true }
+                                index == fuelIdx ->
+                                    navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
+                                index == profileIdx ->
+                                    navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                                else -> navController.popRoleHomeWithHomeTabSelected()
+                            }
+                        }
+                        UserRole.Supervisor -> {
+                            val verifyIdx = requireNotNull(verifyTabIndex(role))
+                            val reportsIdx = requireNotNull(reportsTabIndex(role))
+                            when {
+                                index == homeIdx ->
+                                    navController.popRoleHomeWithHomeTabSelected()
+                                index == verifyIdx ->
+                                    navController.navigate(MainRoutes.verifyStartDuty(role)) { launchSingleTop = true }
+                                index == reportsIdx ->
+                                    navController.navigate(MainRoutes.reports(role)) { launchSingleTop = true }
+                                index == fuelIdx ->
+                                    navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
+                                index == profileIdx ->
+                                    navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                                else -> navController.popRoleHomeWithHomeTabSelected()
+                            }
+                        }
                         else -> navController.popRoleHomeWithHomeTabSelected()
                     }
                 },

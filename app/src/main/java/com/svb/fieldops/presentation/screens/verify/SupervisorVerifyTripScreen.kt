@@ -56,9 +56,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
 import com.svb.fieldops.presentation.navigation.MainRoutes
+import com.svb.fieldops.presentation.navigation.NavStateKeys
 import com.svb.fieldops.presentation.navigation.bottomNavItemsForRole
 import com.svb.fieldops.presentation.navigation.fuelTabIndex
 import com.svb.fieldops.presentation.navigation.popRoleHomeWithHomeTabSelected
+import com.svb.fieldops.presentation.navigation.popToRoleHomeWithHomeTab
 import com.svb.fieldops.presentation.navigation.profileTabIndex
 import com.svb.fieldops.presentation.navigation.reportsTabIndex
 import com.svb.fieldops.presentation.navigation.verifyTabIndex
@@ -90,12 +92,27 @@ private fun goToVerifyStart(navController: NavHostController, role: UserRole) {
     }
 }
 
+private fun NavHostController.leaveVerifyTripScreen(endJobMachineId: String?) {
+    if (!endJobMachineId.isNullOrBlank()) {
+        popBackStack()
+    } else {
+        popRoleHomeWithHomeTabSelected()
+    }
+}
+
+private fun NavHostController.completeVerifyTripFromEndJob(machineId: String) {
+    previousBackStackEntry?.savedStateHandle?.set(NavStateKeys.END_JOB_TRIP_VERIFIED_MACHINE_ID, machineId)
+    popBackStack()
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SupervisorVerifyTripScreen(
     role: UserRole,
     navController: NavHostController,
+    endJobMachineId: String? = null,
 ) {
+    val fromEndJob = !endJobMachineId.isNullOrBlank()
     val items = bottomNavItemsForRole(role)
     val homeIdx = 0
     val verifyIdx = requireNotNull(verifyTabIndex(role)) { "Supervisor only." }
@@ -105,7 +122,7 @@ fun SupervisorVerifyTripScreen(
     val scroll = rememberScrollState()
     var remarks by remember { mutableStateOf("") }
 
-    BackHandler { navController.popRoleHomeWithHomeTabSelected() }
+    BackHandler { navController.leaveVerifyTripScreen(endJobMachineId) }
 
     Scaffold(
         containerColor = SvbLoginBackground,
@@ -120,7 +137,7 @@ fun SupervisorVerifyTripScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popRoleHomeWithHomeTabSelected() }) {
+                    IconButton(onClick = { navController.leaveVerifyTripScreen(endJobMachineId) }) {
                         Icon(
                             Icons.AutoMirrored.Outlined.ArrowBack,
                             contentDescription = "Back",
@@ -163,7 +180,11 @@ fun SupervisorVerifyTripScreen(
                 onSelect = { index ->
                     when {
                         index == homeIdx ->
-                            navController.popRoleHomeWithHomeTabSelected()
+                            if (fromEndJob) {
+                                navController.popToRoleHomeWithHomeTab(role)
+                            } else {
+                                navController.popRoleHomeWithHomeTabSelected()
+                            }
                         index == verifyIdx ->
                             navController.navigate(MainRoutes.verifyStartDuty(role)) { launchSingleTop = true }
                         index == reportsIdx ->
@@ -172,7 +193,12 @@ fun SupervisorVerifyTripScreen(
                             navController.navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
                         index == profileIdx ->
                             navController.navigate(MainRoutes.profile(role)) { launchSingleTop = true }
-                        else -> navController.popRoleHomeWithHomeTabSelected()
+                        else ->
+                            if (fromEndJob) {
+                                navController.popToRoleHomeWithHomeTab(role)
+                            } else {
+                                navController.popRoleHomeWithHomeTabSelected()
+                            }
                     }
                 },
             )
@@ -284,7 +310,13 @@ fun SupervisorVerifyTripScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 OutlinedButton(
-                    onClick = { goToVerifyStart(navController, role) },
+                    onClick = {
+                        if (fromEndJob) {
+                            navController.popBackStack()
+                        } else {
+                            goToVerifyStart(navController, role)
+                        }
+                    },
                     modifier = Modifier.weight(1f),
                     shape = HomeCardShape,
                     border = BorderStroke(1.dp, SvbDanger),
@@ -295,7 +327,13 @@ fun SupervisorVerifyTripScreen(
                     Text("Reject", fontWeight = FontWeight.Bold)
                 }
                 Button(
-                    onClick = { goToVerifyStart(navController, role) },
+                    onClick = {
+                        if (fromEndJob) {
+                            navController.completeVerifyTripFromEndJob(requireNotNull(endJobMachineId))
+                        } else {
+                            goToVerifyStart(navController, role)
+                        }
+                    },
                     modifier = Modifier.weight(1f),
                     shape = HomeCardShape,
                     colors = ButtonDefaults.buttonColors(
