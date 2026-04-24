@@ -160,7 +160,7 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                             icon = Icons.Outlined.LocalShipping,
                             title = "TATA-019 Trip #5",
                             subtitle = "11:18 AM • Driver Suresh",
-                            onClick = {},
+                            onClick = { navController.navigate(MainRoutes.verifyTrip(role)) { launchSingleTop = true } },
                             iconContainerColor = SvbCardMuted,
                         )
                         ActionDividerTextAligned()
@@ -188,21 +188,23 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.Route,
                     title = "Verify Trips",
                     subtitle = "Cross-check tipper loadings",
-                    onClick = { navController.navigate(MainRoutes.reports(role)) { launchSingleTop = true } },
+                    onClick = { navController.navigate(MainRoutes.verifyTrip(role)) { launchSingleTop = true } },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
                     icon = Icons.Outlined.LocalGasStation,
                     title = "Verify HSD Requests",
                     subtitle = "Check operator fuel requests",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.verifyHsdRequests(role)) { launchSingleTop = true } },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(
                     icon = Icons.Outlined.Build,
                     title = "Close Breakdowns",
                     subtitle = "Mark resolved issues",
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(MainRoutes.openBreakdowns(role)) { launchSingleTop = true }
+                    },
                 )
                 ActionDividerTextAligned()
                 ActionTileRow(

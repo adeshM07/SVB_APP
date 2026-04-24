@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Route
 import androidx.compose.material.icons.outlined.InsertChart
 import androidx.compose.material.icons.outlined.TaskAlt
+import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
 import com.svb.fieldops.presentation.screens.home.HomeNavEntry
 
@@ -93,4 +94,50 @@ fun approvalsTabIndex(role: UserRole): Int? = when (role) {
 fun dprTabIndex(role: UserRole): Int? = when (role) {
     UserRole.Engineer -> 3
     else -> null
+}
+
+/**
+ * Bottom bar on [com.svb.fieldops.presentation.screens.breakdowns.EngineerOpenBreakdownsScreen] and
+ * [com.svb.fieldops.presentation.screens.breakdowns.EngineerCloseBreakdownScreen] (Engineer + Supervisor).
+ */
+fun NavHostController.onBreakdownFlowBottomNavSelect(role: UserRole, index: Int) {
+    val homeIdx = 0
+    val profileIdx = profileTabIndex(role)
+    when (role) {
+        UserRole.Engineer -> {
+            val approvalsIdx = requireNotNull(approvalsTabIndex(role))
+            val dieselIdx = requireNotNull(dieselTabIndex(role))
+            val dprIdx = requireNotNull(dprTabIndex(role))
+            when {
+                index == homeIdx -> popRoleHomeWithHomeTabSelected()
+                index == profileIdx ->
+                    navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                index == approvalsIdx ->
+                    navigate(MainRoutes.approvals(role)) { launchSingleTop = true }
+                index == dieselIdx ->
+                    navigate(MainRoutes.diesel(role)) { launchSingleTop = true }
+                index == dprIdx ->
+                    navigate(MainRoutes.dpr(role)) { launchSingleTop = true }
+                else -> popRoleHomeWithHomeTabSelected()
+            }
+        }
+        UserRole.Supervisor -> {
+            val verifyIdx = requireNotNull(verifyTabIndex(role))
+            val reportsIdx = requireNotNull(reportsTabIndex(role))
+            val fuelIdx = requireNotNull(fuelTabIndex(role))
+            when {
+                index == homeIdx -> popRoleHomeWithHomeTabSelected()
+                index == profileIdx ->
+                    navigate(MainRoutes.profile(role)) { launchSingleTop = true }
+                index == verifyIdx ->
+                    navigate(MainRoutes.verifyStartDuty(role)) { launchSingleTop = true }
+                index == reportsIdx ->
+                    navigate(MainRoutes.reports(role)) { launchSingleTop = true }
+                index == fuelIdx ->
+                    navigate(MainRoutes.fuel(role)) { launchSingleTop = true }
+                else -> popRoleHomeWithHomeTabSelected()
+            }
+        }
+        else -> popRoleHomeWithHomeTabSelected()
+    }
 }

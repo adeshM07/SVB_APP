@@ -174,7 +174,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.Build,
                     title = "Open Breakdowns",
                     subtitle = "Manage and resolve issues",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.openBreakdowns(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
@@ -182,7 +182,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.AutoMirrored.Outlined.FactCheck,
                     title = "Verify Site Start",
                     subtitle = "Confirm all personnel started",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.verifySiteStart(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
@@ -198,7 +198,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.StopCircle,
                     title = "End Job — Site-wide",
                     subtitle = "Close all operator duties",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.endJobSite(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
             }

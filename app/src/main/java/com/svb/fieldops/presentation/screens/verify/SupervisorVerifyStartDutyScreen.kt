@@ -36,7 +36,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -276,14 +275,8 @@ fun SupervisorVerifyStartDutyScreen(
                         VerifyMachineListRow(
                             line = line,
                             state = rowStates[i],
-                            onVerifyClick = {
-                                rowStates = rowStates.mapIndexed { idx, s ->
-                                    if (idx == i && (s is MachineVerifyState.Scan || s is MachineVerifyState.Pending)) {
-                                        MachineVerifyState.Verified
-                                    } else {
-                                        s
-                                    }
-                                }
+                            onPendingOrScanNavigate = {
+                                navController.navigate(MainRoutes.verifyTrip(role)) { launchSingleTop = true }
                             },
                         )
                         if (i < machineLines.lastIndex) {
@@ -353,15 +346,23 @@ private fun VerifyProgressBar(progress: Float) {
 private fun VerifyMachineListRow(
     line: VerifyMachineLine,
     state: MachineVerifyState,
-    onVerifyClick: () -> Unit,
+    onPendingOrScanNavigate: () -> Unit,
 ) {
     val verified = state is MachineVerifyState.Verified
     val iconTint = if (verified) SvbSuccess else SvbBlack
+    val navigatesToTrip = state is MachineVerifyState.Scan || state is MachineVerifyState.Pending
 
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 14.dp),
+            .padding(horizontal = 16.dp, vertical = 14.dp)
+            .then(
+                if (navigatesToTrip) {
+                    Modifier.clickable(onClick = onPendingOrScanNavigate)
+                } else {
+                    Modifier
+                },
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         // Verified: soft green tile. Not verified: no fill / no clip so list (#F5F5F5) shows through.
@@ -409,32 +410,33 @@ private fun VerifyMachineListRow(
                 )
             }
             MachineVerifyState.Scan -> {
-                OutlinedButton(
-                    onClick = onVerifyClick,
+                Surface(
                     shape = RoundedCornerShape(12.dp),
+                    color = Color.Transparent,
                     border = BorderStroke(1.dp, SvbN5),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = SvbBlack,
-                        containerColor = Color.Transparent,
-                    ),
-                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
                 ) {
-                    Icon(
-                        Icons.Outlined.QrCode2,
-                        contentDescription = null,
-                        modifier = Modifier.size(18.dp),
-                    )
-                    Spacer(Modifier.width(6.dp))
-                    Text(
-                        text = "Scan",
-                        style = MaterialTheme.typography.labelMedium,
-                        fontWeight = FontWeight.Bold,
-                    )
+                    Row(
+                        Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            Icons.Outlined.QrCode2,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                            tint = SvbBlack,
+                        )
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            text = "Scan",
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = SvbBlack,
+                        )
+                    }
                 }
             }
             MachineVerifyState.Pending -> {
                 Surface(
-                    modifier = Modifier.clickable(onClick = onVerifyClick),
                     shape = RoundedCornerShape(999.dp),
                     color = SvbCardMuted,
                 ) {

@@ -25,12 +25,19 @@ import com.svb.fieldops.presentation.screens.home.OperatorHomeScreen
 import com.svb.fieldops.presentation.screens.home.SupervisorHomeScreen
 import com.svb.fieldops.presentation.screens.diesel.EngineerDieselScreen
 import com.svb.fieldops.presentation.screens.fuel.HsdFuelScreen
+import com.svb.fieldops.presentation.screens.fuel.SupervisorVerifyHsdRequestFlowScreen
+import com.svb.fieldops.presentation.screens.fuel.SupervisorVerifyHsdRequestsScreen
 import com.svb.fieldops.presentation.screens.loadings.OperatorLoadingsScreen
 import com.svb.fieldops.presentation.screens.trips.DriverTodaysTripsScreen
 import com.svb.fieldops.presentation.screens.verify.SupervisorVerifyStartDutyScreen
+import com.svb.fieldops.presentation.screens.verify.SupervisorVerifyTripScreen
 import com.svb.fieldops.presentation.screens.profile.ProfileScreen
 import com.svb.fieldops.presentation.screens.approvals.EngineerApprovalsScreen
 import com.svb.fieldops.presentation.screens.dpr.EngineerDprScreen
+import com.svb.fieldops.presentation.screens.breakdowns.EngineerCloseBreakdownScreen
+import com.svb.fieldops.presentation.screens.breakdowns.EngineerOpenBreakdownsScreen
+import com.svb.fieldops.presentation.screens.endjob.EngineerEndJobSiteScreen
+import com.svb.fieldops.presentation.screens.sitestart.EngineerVerifySiteStartScreen
 import com.svb.fieldops.presentation.screens.zones.EngineerZoneWorkPlanScreen
 import com.svb.fieldops.presentation.screens.reports.SupervisorReportsScreen
 import com.svb.fieldops.presentation.viewmodel.ClockInFlowViewModel
@@ -217,6 +224,58 @@ fun AppNavHost(
             }
         }
         composable(
+            route = MainRoutes.verifyTripRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsSupervisorVerifyTripScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorVerifyTripScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.verifyHsdRequestsRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsSupervisorVerifyHsdRequestsScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorVerifyHsdRequestsScreen(
+                    role = role,
+                    navController = navController,
+                    listSavedStateHandle = entry.savedStateHandle,
+                )
+            }
+        }
+        composable(
+            route = MainRoutes.verifyHsdRequestFlowRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+                navArgument("requestId") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            val requestId = entry.arguments?.getString("requestId").orEmpty()
+            if (role == null || !role.supportsSupervisorVerifyHsdRequestFlowScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                SupervisorVerifyHsdRequestFlowScreen(
+                    role = role,
+                    requestId = requestId,
+                    navController = navController,
+                )
+            }
+        }
+        composable(
             route = MainRoutes.reportsRoute,
             arguments = listOf(
                 navArgument("role") { type = NavType.StringType },
@@ -270,6 +329,68 @@ fun AppNavHost(
                 LaunchedEffect(Unit) { navController.popBackStack() }
             } else {
                 EngineerZoneWorkPlanScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.verifySiteStartRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsEngineerVerifySiteStartScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerVerifySiteStartScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.endJobSiteRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsEngineerEndJobSiteScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerEndJobSiteScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.openBreakdownsRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsEngineerOpenBreakdownsScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerOpenBreakdownsScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.closeBreakdownRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+                navArgument("breakdownId") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val rawRole = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(rawRole)
+            val breakdownId = entry.arguments?.getString("breakdownId").orEmpty()
+            if (role == null || !role.supportsEngineerCloseBreakdownScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerCloseBreakdownScreen(
+                    role = role,
+                    breakdownId = breakdownId,
+                    navController = navController,
+                )
             }
         }
     }

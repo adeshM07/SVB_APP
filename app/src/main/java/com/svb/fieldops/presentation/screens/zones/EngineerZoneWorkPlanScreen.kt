@@ -1,7 +1,6 @@
 package com.svb.fieldops.presentation.screens.zones
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -455,7 +454,7 @@ private fun ConfiguredZoneExpandedBody(
     onRemoveMachine: (String) -> Unit,
     onAddMachine: () -> Unit,
 ) {
-    Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp)) {
+    Column(Modifier.padding(start = 14.dp, top = 12.dp, end = 14.dp, bottom = 14.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Column(Modifier.weight(1.4f)) {
                 Text(
@@ -541,7 +540,7 @@ private fun UnconfiguredZoneExpandedBody(
     onRemoveMachine: (String) -> Unit,
     onAddMachine: () -> Unit,
 ) {
-    Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp)) {
+    Column(Modifier.padding(start = 14.dp, top = 12.dp, end = 14.dp, bottom = 14.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Column(Modifier.weight(1.4f)) {
                 Text(
@@ -833,37 +832,31 @@ private fun SupervisorFilterCard() {
                 onExpandedChange = { expanded = !expanded },
                 modifier = Modifier.wrapContentWidth(),
             ) {
-                Surface(
-                    onClick = { expanded = !expanded },
+                OutlinedTextField(
+                    value = label,
+                    onValueChange = {},
+                    readOnly = true,
                     modifier = Modifier
-                        .menuAnchor()
-                        .widthIn(max = 112.dp),
-                    shape = RoundedCornerShape(6.dp),
-                    color = SvbWhite,
-                    border = BorderStroke(
-                        width = 1.dp,
-                        color = if (expanded) SvbPrimary2 else SvbN5,
-                    ),
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    ) {
-                        Text(
-                            text = label,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = SvbN2,
-                            maxLines = 1,
-                        )
+                        .widthIn(min = 96.dp, max = 120.dp)
+                        .menuAnchor(),
+                    textStyle = MaterialTheme.typography.bodySmall.copy(color = SvbN2),
+                    trailingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.ArrowDropDown,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp),
+                            modifier = Modifier.size(18.dp),
                             tint = SvbBlack,
                         )
-                    }
-                }
+                    },
+                    shape = RoundedCornerShape(6.dp),
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = SvbWhite,
+                        unfocusedContainerColor = SvbWhite,
+                        focusedBorderColor = if (expanded) SvbPrimary2 else SvbN5,
+                        unfocusedBorderColor = SvbN5,
+                    ),
+                )
                 ExposedDropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
