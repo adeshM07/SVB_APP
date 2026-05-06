@@ -503,6 +503,7 @@ private fun CriticalIssueCard() {
             SvbOutlinedButton(
                 text = "View Details",
                 onClick = {},
+                shape = RoundedCornerShape(40.dp),
             )
         }
     }

@@ -136,8 +136,9 @@ fun SelfieCaptureScreen(
                 IconButton(
                     onClick = { /* Phase 3: switch lens */ },
                     modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 12.dp),
+                        .align(Alignment.Center)
+                        .padding(end = 186.dp)
+                        .size(56.dp),
                 ) {
                     Surface(
                         color = SvbSelfieCard,
@@ -147,7 +148,9 @@ fun SelfieCaptureScreen(
                             imageVector = Icons.Outlined.FlipCameraAndroid,
                             contentDescription = "Switch camera",
                             tint = SvbWhite,
-                            modifier = Modifier.padding(7.dp),
+                            modifier = Modifier
+                                .size(40.dp)
+                                .padding(7.dp),
                         )
                     }
                 }

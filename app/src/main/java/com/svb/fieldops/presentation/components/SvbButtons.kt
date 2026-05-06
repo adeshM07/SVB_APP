@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.svb.fieldops.ui.theme.SvbBlack
@@ -118,13 +119,14 @@ fun SvbOutlinedButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     leadingIcon: ImageVector? = null,
+    shape: Shape = ButtonShape,
 ) {
     OutlinedButton(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 54.dp),
-        shape = ButtonShape,
+        shape = shape,
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = SvbBlack,
         ),

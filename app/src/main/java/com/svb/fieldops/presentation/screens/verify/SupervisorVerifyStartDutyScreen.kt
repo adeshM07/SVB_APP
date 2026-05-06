@@ -292,7 +292,7 @@ fun SupervisorVerifyStartDutyScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .alpha(if (allVerified) 1f else 0.48f),
-                shape = HomeCardShape,
+                shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = SvbPrimary2,
                     contentColor = SvbBlack,

@@ -245,7 +245,7 @@ private fun TripLogDetailRow(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Normal,
-            color = SvbN3,
+            color = SvbN2,
         )
         Text(
             text = value,
@@ -269,7 +269,7 @@ private fun TripLogOdometerPhotosRow() {
             text = "Odometer Photos",
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Normal,
-            color = SvbN3,
+            color = SvbN2,
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -321,7 +321,7 @@ private fun OdometerRow(
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
-            color = SvbN3,
+            color = SvbN2,
         )
         Text(
             text = value,

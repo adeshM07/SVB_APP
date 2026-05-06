@@ -138,7 +138,7 @@ fun EngineerEndJobSiteScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* later: notifications */ }) {
+                    IconButton(onClick = { navController.navigate(MainRoutes.notifications(role)) { launchSingleTop = true } }) {
                         Box(Modifier.fillMaxSize()) {
                             Icon(
                                 Icons.Outlined.Notifications,

@@ -84,9 +84,9 @@ import com.svb.fieldops.ui.theme.SvbWhite
 
 private val VerifiedSupBadgeBg = Color(0xFFE8F5E9)
 private val PendingSupBadgeBg = Color(0xFFFFF6E5)
-private val PendingSupBadgeText = Color(0xFFE65100)
+private val PendingSupBadgeText = SvbPrimary1
 private val SwapCardBorder = Color(0xFFFFC107)
-private val SwapCardBg = Color(0xFFFFFDF5)
+private val SwapCardBg = Color(0xFFFFF4D9)
 /** Trailing chevron on swap row (mockup ~#FFB800 on cream card). */
 private val SwapChevronYellow = Color(0xFFFFB800)
 /** OTHER card info strip: white surface, tan “i”, blue-grey body (mockup). */
@@ -271,7 +271,7 @@ fun EngineerApprovalsScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* later: notifications */ }) {
+                    IconButton(onClick = { navController.navigate(MainRoutes.notifications(role)) { launchSingleTop = true } }) {
                         Box(Modifier.fillMaxSize()) {
                             Icon(
                                 Icons.Outlined.Notifications,

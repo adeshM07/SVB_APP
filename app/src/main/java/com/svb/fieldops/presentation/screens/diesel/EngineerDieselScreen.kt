@@ -228,7 +228,7 @@ fun EngineerDieselScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* later: add entry */ }) {
+                    IconButton(onClick = { navController.navigate(MainRoutes.addPurchase(role)) { launchSingleTop = true } }) {
                         Icon(Icons.Outlined.Add, contentDescription = "Add", tint = SvbBlack)
                     }
                 },
@@ -269,7 +269,9 @@ fun EngineerDieselScreen(
             Spacer(Modifier.height(14.dp))
             CurrentStockCard(stockLitres = 2_000, capacityLitres = 3_000, burnPerDay = 450)
             Spacer(Modifier.height(16.dp))
-            IssueAndPurchaseRow()
+            IssueAndPurchaseRow(
+                onAddPurchaseClick = { navController.navigate(MainRoutes.addPurchase(role)) { launchSingleTop = true } },
+            )
             Spacer(Modifier.height(24.dp))
             DailyLedgerHeader(
                 selectedFilter = ledgerFilter,
@@ -573,7 +575,9 @@ private fun StockLevelProgressBar(progress: Float) {
 }
 
 @Composable
-private fun IssueAndPurchaseRow() {
+private fun IssueAndPurchaseRow(
+    onAddPurchaseClick: () -> Unit,
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -610,7 +614,7 @@ private fun IssueAndPurchaseRow() {
             modifier = Modifier
                 .weight(1f)
                 .clip(RoundedCornerShape(14.dp))
-                .clickable { /* Add purchase */ },
+                .clickable(onClick = onAddPurchaseClick),
             shape = RoundedCornerShape(14.dp),
             color = SvbN7,
         ) {

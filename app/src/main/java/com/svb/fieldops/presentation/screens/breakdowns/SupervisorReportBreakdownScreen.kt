@@ -345,7 +345,7 @@ private fun SeverityChoiceCard(
     } else {
         BorderStroke(1.dp, SvbN5)
     }
-    val bg = if (selected) SvbPrimary5 else SvbWhite
+    val bg = if (selected) SvbPrimary5 else SvbLoginBackground
     Surface(
         modifier = modifier
             .clip(SeverityCardShape)
@@ -383,7 +383,7 @@ private fun BreakdownTypeRow(
     selected: Boolean,
     onClick: () -> Unit,
 ) {
-    val border = if (selected) BorderStroke(2.dp, SvbPrimary2) else BorderStroke(1.dp, SvbN5)
+    val border = if (selected) BorderStroke(1.dp, SvbPrimary2) else BorderStroke(1.dp, SvbN5)
     val bg = if (selected) SvbPrimary5 else SvbN7
     Surface(
         modifier = Modifier

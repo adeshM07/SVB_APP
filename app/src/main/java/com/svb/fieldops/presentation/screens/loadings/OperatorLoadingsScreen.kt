@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -183,7 +184,7 @@ fun OperatorLoadingsScreen(
                     Button(
                         onClick = { /* later: log loading */ },
                         modifier = Modifier.fillMaxWidth(),
-                        shape = HomeCardShape,
+                        shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = SvbPrimary2,
                             contentColor = SvbBlack,

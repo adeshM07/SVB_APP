@@ -97,9 +97,10 @@ private val MinorIconTileBg = Color(0xFFFFF3E0)
 /** Minor wrench tint (mock). */
 private val MinorWrenchTint = Color(0xFFFFA000)
 
-/** List row MAJOR/MINOR badge — same for both (mock). */
+/** List row MINOR badge background (mock). */
 private val SeverityBadgeBg = Color(0xFFFFF0E0)
 private val SeverityBadgeText = MinorWrenchTint
+private val MajorSeverityBadgeBg = Color(0xFFFFEAEA)
 
 /** Major row icon tile — light red (mock). */
 private val MajorIconTileBg = Color(0xFFFFEBEE)
@@ -186,7 +187,7 @@ fun EngineerOpenBreakdownsScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* later: notifications */ }) {
+                    IconButton(onClick = { navController.navigate(MainRoutes.notifications(role)) { launchSingleTop = true } }) {
                         Box(Modifier.fillMaxSize()) {
                             Icon(
                                 Icons.Outlined.Notifications,
@@ -379,14 +380,14 @@ private fun BreakdownListRow(
                 )
                 Surface(
                     shape = RoundedCornerShape(6.dp),
-                    color = SeverityBadgeBg,
+                    color = if (isMajor) MajorSeverityBadgeBg else SeverityBadgeBg,
                 ) {
                     Text(
                         text = if (isMajor) "MAJOR" else "MINOR",
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.ExtraBold,
-                        color = SeverityBadgeText,
+                        color = if (isMajor) SvbDanger else SeverityBadgeText,
                     )
                 }
             }

@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -251,21 +252,22 @@ fun DriverJobOdometerPhotoPlaceholder(
     onClick: () -> Unit,
     proofSubtitle: String = "This serves as proof of reading",
 ) {
-    val dash = 10.dp
-    val gap = 8.dp
+    val dash = 8.dp
+    val gap = 6.dp
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp)
             .clip(HomeCardShape)
             .clickable(onClick = onClick)
-            .drawBehind {
-                val w = 2.dp.toPx()
+            .drawWithContent {
+                drawContent()
+                val w = 1.6.dp.toPx()
                 val dashPx = dash.toPx()
                 val gapPx = gap.toPx()
                 val inset = w * 0.5f
                 drawRoundRect(
-                    color = SvbN5,
+                    color = SvbN5.copy(alpha = 0.9f),
                     topLeft = Offset(inset, inset),
                     size = Size(size.width - inset * 2, size.height - inset * 2),
                     style = Stroke(

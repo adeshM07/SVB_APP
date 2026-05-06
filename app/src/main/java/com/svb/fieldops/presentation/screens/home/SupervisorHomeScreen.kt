@@ -235,8 +235,6 @@ fun SupervisorHomeScreen(navController: NavHostController) {
                 )
             }
             Spacer(Modifier.height(12.dp))
-            HomeFuelStatusCard(circularIconBackground = false)
-            Spacer(Modifier.height(24.dp))
         }
     }
 }

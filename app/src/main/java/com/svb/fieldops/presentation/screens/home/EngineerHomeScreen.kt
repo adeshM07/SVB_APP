@@ -112,6 +112,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                 greeting = "Good morning",
                 userName = "Anil Verma",
                 notificationDot = true,
+                onNotificationClick = { navController.navigate(MainRoutes.notifications(role)) { launchSingleTop = true } },
             )
             Spacer(Modifier.height(20.dp))
             DutyStatusHeroCard(
@@ -150,7 +151,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.LocalGasStation,
                     title = "HSD Inventory",
                     subtitle = "Stock: 2,000 L",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.diesel(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()
@@ -190,7 +191,7 @@ fun EngineerHomeScreen(navController: NavHostController) {
                     icon = Icons.Outlined.ShoppingCart,
                     title = "Add Purchase",
                     subtitle = "New HSD purchase entry",
-                    onClick = {},
+                    onClick = { navController.navigate(MainRoutes.addPurchase(role)) { launchSingleTop = true } },
                     iconContainerColor = SvbWhite,
                 )
                 ActionDividerTextAligned()

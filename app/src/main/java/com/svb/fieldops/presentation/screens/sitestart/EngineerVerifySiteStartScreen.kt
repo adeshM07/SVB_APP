@@ -161,7 +161,7 @@ fun EngineerVerifySiteStartScreen(
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* later: notifications */ }) {
+                    IconButton(onClick = { navController.navigate(MainRoutes.notifications(role)) { launchSingleTop = true } }) {
                         Box(Modifier.fillMaxSize()) {
                             Icon(
                                 Icons.Outlined.Notifications,
@@ -251,7 +251,7 @@ fun EngineerVerifySiteStartScreen(
             Button(
                 onClick = { /* stub: confirm day */ },
                 modifier = Modifier.fillMaxWidth(),
-                shape = HomeCardShape,
+                shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = SvbPrimary2,
                     contentColor = SvbBlack,
@@ -274,7 +274,7 @@ fun EngineerVerifySiteStartScreen(
             OutlinedButton(
                 onClick = { /* stub: send reminder */ },
                 modifier = Modifier.fillMaxWidth(),
-                shape = HomeCardShape,
+                shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, SvbBlack),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
                 contentPadding = PaddingValues(vertical = 14.dp),

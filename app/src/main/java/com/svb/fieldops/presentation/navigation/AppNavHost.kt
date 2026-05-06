@@ -25,6 +25,7 @@ import com.svb.fieldops.presentation.screens.home.DriverHomeScreen
 import com.svb.fieldops.presentation.screens.home.EngineerHomeScreen
 import com.svb.fieldops.presentation.screens.home.OperatorHomeScreen
 import com.svb.fieldops.presentation.screens.home.SupervisorHomeScreen
+import com.svb.fieldops.presentation.screens.diesel.AddPurchaseScreen
 import com.svb.fieldops.presentation.screens.diesel.EngineerDieselScreen
 import com.svb.fieldops.presentation.screens.fuel.HsdFuelScreen
 import com.svb.fieldops.presentation.screens.fuel.SupervisorVerifyHsdRequestFlowScreen
@@ -41,6 +42,7 @@ import com.svb.fieldops.presentation.screens.breakdowns.EngineerOpenBreakdownsSc
 import com.svb.fieldops.presentation.screens.breakdowns.SupervisorReportBreakdownScreen
 import com.svb.fieldops.presentation.screens.endjob.EngineerEndJobSiteScreen
 import com.svb.fieldops.presentation.screens.endjob.SupervisorEndJobScreen
+import com.svb.fieldops.presentation.screens.notifications.EngineerNotificationsScreen
 import com.svb.fieldops.presentation.screens.sitestart.EngineerVerifySiteStartScreen
 import com.svb.fieldops.presentation.screens.zones.EngineerZoneWorkPlanScreen
 import com.svb.fieldops.presentation.screens.reports.SupervisorReportsScreen
@@ -187,6 +189,20 @@ fun AppNavHost(
             }
         }
         composable(
+            route = MainRoutes.addPurchaseRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsAddPurchaseScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                AddPurchaseScreen(role = role, navController = navController)
+            }
+        }
+        composable(
             route = MainRoutes.loadingsRoute,
             arguments = listOf(
                 navArgument("role") { type = NavType.StringType },
@@ -326,6 +342,20 @@ fun AppNavHost(
                 LaunchedEffect(Unit) { navController.popBackStack() }
             } else {
                 SupervisorEndJobScreen(role = role, navController = navController)
+            }
+        }
+        composable(
+            route = MainRoutes.notificationsRoute,
+            arguments = listOf(
+                navArgument("role") { type = NavType.StringType },
+            ),
+        ) { entry ->
+            val raw = entry.arguments?.getString("role")
+            val role = parseUserRoleFromArg(raw)
+            if (role == null || !role.supportsNotificationsScreen()) {
+                LaunchedEffect(Unit) { navController.popBackStack() }
+            } else {
+                EngineerNotificationsScreen(role = role, navController = navController)
             }
         }
         composable(

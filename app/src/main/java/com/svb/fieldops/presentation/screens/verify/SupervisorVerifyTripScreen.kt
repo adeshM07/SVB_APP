@@ -317,8 +317,10 @@ fun SupervisorVerifyTripScreen(
                             goToVerifyStart(navController, role)
                         }
                     },
-                    modifier = Modifier.weight(1f),
-                    shape = HomeCardShape,
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(1.dp, SvbDanger),
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbDanger),
                 ) {
@@ -334,8 +336,10 @@ fun SupervisorVerifyTripScreen(
                             goToVerifyStart(navController, role)
                         }
                     },
-                    modifier = Modifier.weight(1f),
-                    shape = HomeCardShape,
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = SvbSuccess,
                         contentColor = SvbWhite,

@@ -271,19 +271,19 @@ fun SupervisorEndJobScreen(
                 }
             }
             Spacer(Modifier.height(16.dp))
+            Text(
+                text = "TEAM SUMMARY",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.ExtraBold,
+                color = SvbN3,
+            )
+            Spacer(Modifier.height(8.dp))
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = HomeCardShape,
                 colors = CardDefaults.cardColors(containerColor = SvbCardMuted),
             ) {
                 Column(Modifier.padding(16.dp)) {
-                    Text(
-                        text = "TEAM SUMMARY",
-                        style = MaterialTheme.typography.labelSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = SvbN3,
-                    )
-                    Spacer(Modifier.height(12.dp))
                     TeamSummaryRow("Total trips today", "32")
                     Spacer(Modifier.height(10.dp))
                     TeamSummaryRow("Total loadings", "87")
@@ -315,7 +315,7 @@ fun SupervisorEndJobScreen(
                 onClick = { navController.popRoleHomeWithHomeTabSelected() },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = allVerified,
-                shape = HomeCardShape,
+                shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = EndJobPrimaryGreen,
                     contentColor = SvbWhite,
@@ -434,9 +434,15 @@ private fun EndJobMachineRow(
                 onClick = onScan,
                 shape = RoundedCornerShape(12.dp),
                 border = BorderStroke(1.dp, SvbN5),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
             ) {
-                Text("Scan", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
+                Text(
+                    "Scan",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = SvbBlack,
+                )
             }
         }
     }

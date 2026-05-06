@@ -332,7 +332,7 @@ private fun HsdFilterChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val bg = if (selected) SvbPrimary5 else SvbWhite
+    val bg = if (selected) SvbPrimary5 else SvbLoginBackground
     val border = if (selected) BorderStroke(1.dp, SvbPrimary2) else BorderStroke(1.dp, SvbN5)
     val textColor = if (selected) SvbPrimary1 else SvbBlack
     Surface(
@@ -470,7 +470,7 @@ private fun HsdRequestRow(
                 border = BorderStroke(1.dp, SvbPrimary2),
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = SvbPrimary1,
-                    containerColor = SvbWhite,
+                    containerColor = SvbLoginBackground,
                 ),
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
             ) {

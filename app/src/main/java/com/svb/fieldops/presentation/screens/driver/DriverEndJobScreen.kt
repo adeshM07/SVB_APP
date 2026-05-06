@@ -45,7 +45,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
@@ -252,7 +255,7 @@ private fun EndJobStepScanMachineQr(onNext: () -> Unit) {
     Button(
         onClick = onNext,
         modifier = Modifier.fillMaxWidth(),
-        shape = HomeCardShape,
+        shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = SvbPrimary2,
             contentColor = SvbBlack,
@@ -335,9 +338,13 @@ private fun EndJobStepClosingOdometer(
             )
             Spacer(Modifier.width(10.dp))
             Text(
-                text = "Start reading: ${driverJobFormatKms(ShiftStartOdometerKms.toString())} KMS",
+                text = buildAnnotatedString {
+                    append("Start reading: ")
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append("${driverJobFormatKms(ShiftStartOdometerKms.toString())} KMS")
+                    }
+                },
                 style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.SemiBold,
                 color = SvbBlack,
             )
         }
@@ -349,8 +356,10 @@ private fun EndJobStepClosingOdometer(
     ) {
         OutlinedButton(
             onClick = onBack,
-            modifier = Modifier.weight(0.38f),
-            shape = HomeCardShape,
+            modifier = Modifier
+                .weight(0.38f)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp, SvbN5),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
         ) {
@@ -360,9 +369,11 @@ private fun EndJobStepClosingOdometer(
         }
         Button(
             onClick = onNext,
-            modifier = Modifier.weight(0.62f),
+            modifier = Modifier
+                .weight(0.62f)
+                .height(52.dp),
             enabled = closingDigits.isNotEmpty() && closingPhotoCaptured,
-            shape = HomeCardShape,
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = SvbPrimary2,
                 contentColor = SvbBlack,
@@ -432,8 +443,10 @@ private fun EndJobStepSummary(
     ) {
         OutlinedButton(
             onClick = onBack,
-            modifier = Modifier.weight(0.35f),
-            shape = HomeCardShape,
+            modifier = Modifier
+                .weight(0.35f)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp, SvbN5),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
         ) {
@@ -443,9 +456,11 @@ private fun EndJobStepSummary(
         }
         Button(
             onClick = onEndDuty,
-            modifier = Modifier.weight(0.65f),
+            modifier = Modifier
+                .weight(0.65f)
+                .height(52.dp),
             enabled = closingDigits.isNotEmpty() && closingPhotoCaptured,
-            shape = HomeCardShape,
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = SvbDanger,
                 contentColor = SvbWhite,

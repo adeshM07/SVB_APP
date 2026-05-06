@@ -11,6 +11,7 @@ object MainRoutes {
     const val profile = "main/profile/{role}"
     const val fuelRoute = "main/fuel/{role}"
     const val dieselRoute = "main/diesel/{role}"
+    const val addPurchaseRoute = "main/add-purchase/{role}"
     const val loadingsRoute = "main/loadings/{role}"
     const val tripsRoute = "main/trips/{role}"
     const val startJobDriverRoute = "main/start-job/{role}"
@@ -31,6 +32,7 @@ object MainRoutes {
     const val verifySiteStartRoute = "main/verify-site-start/{role}"
     const val endJobSiteRoute = "main/end-job-site/{role}"
     const val endJobSupervisorRoute = "main/end-job-supervisor/{role}"
+    const val notificationsRoute = "main/notifications/{role}"
     const val openBreakdownsRoute = "main/open-breakdowns/{role}"
     const val closeBreakdownRoute = "main/close-breakdown/{role}/{breakdownId}"
     const val reportBreakdownRoute = "main/report-breakdown/{role}"
@@ -38,6 +40,7 @@ object MainRoutes {
     fun profile(role: UserRole): String = "main/profile/${role.name.lowercase()}"
     fun fuel(role: UserRole): String = "main/fuel/${role.name.lowercase()}"
     fun diesel(role: UserRole): String = "main/diesel/${role.name.lowercase()}"
+    fun addPurchase(role: UserRole): String = "main/add-purchase/${role.name.lowercase()}"
     fun loadings(role: UserRole): String = "main/loadings/${role.name.lowercase()}"
     fun trips(role: UserRole): String = "main/trips/${role.name.lowercase()}"
     fun startJob(role: UserRole): String = "main/start-job/${role.name.lowercase()}"
@@ -57,6 +60,7 @@ object MainRoutes {
     fun verifySiteStart(role: UserRole): String = "main/verify-site-start/${role.name.lowercase()}"
     fun endJobSite(role: UserRole): String = "main/end-job-site/${role.name.lowercase()}"
     fun endJobSupervisor(role: UserRole): String = "main/end-job-supervisor/${role.name.lowercase()}"
+    fun notifications(role: UserRole): String = "main/notifications/${role.name.lowercase()}"
     fun openBreakdowns(role: UserRole): String = "main/open-breakdowns/${role.name.lowercase()}"
     fun closeBreakdown(role: UserRole, breakdownId: String): String =
         "main/close-breakdown/${role.name.lowercase()}/$breakdownId"
@@ -118,6 +122,8 @@ fun UserRole.supportsHsdFuelScreen(): Boolean = when (this) {
 
 fun UserRole.supportsDieselInventoryScreen(): Boolean = this == UserRole.Engineer
 
+fun UserRole.supportsAddPurchaseScreen(): Boolean = this == UserRole.Engineer
+
 fun UserRole.supportsOperatorLoadingsScreen(): Boolean = this == UserRole.Operator
 
 fun UserRole.supportsDriverTripsScreen(): Boolean = this == UserRole.Driver
@@ -146,6 +152,8 @@ fun UserRole.supportsReportBreakdownScreen(): Boolean =
     this == UserRole.Supervisor || this == UserRole.Driver || this == UserRole.Operator
 
 fun UserRole.supportsSupervisorEndJobScreen(): Boolean = this == UserRole.Supervisor
+
+fun UserRole.supportsNotificationsScreen(): Boolean = this == UserRole.Engineer
 
 fun UserRole.supportsEngineerApprovalsScreen(): Boolean = this == UserRole.Engineer
 

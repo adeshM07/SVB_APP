@@ -46,7 +46,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
@@ -77,7 +80,7 @@ private const val LastReadingKms = 45_180
 
 /** Teal for outlined verify badge + “Machine verified” (mock ~#26A69A). */
 private val MachineVerifiedTeal = Color(0xFF26A69A)
-private val MachineVerifiedBannerBg = Color(0xFFE0F2F1)
+private val MachineVerifiedBannerBg = Color(0xFFF2FAF6)
 private val InfoBannerBg = Color(0xFFFFF8E1)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -253,7 +256,7 @@ private fun StepScanMachineQr(onNext: () -> Unit) {
     Button(
         onClick = onNext,
         modifier = Modifier.fillMaxWidth(),
-        shape = HomeCardShape,
+        shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = SvbPrimary2,
             contentColor = SvbBlack,
@@ -320,7 +323,7 @@ private fun StepOdometerReading(
     )
     Spacer(Modifier.height(14.dp))
     Surface(
-        shape = HomeCardShape,
+        shape = RoundedCornerShape(12.dp),
         color = InfoBannerBg,
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -336,7 +339,12 @@ private fun StepOdometerReading(
             )
             Spacer(Modifier.width(10.dp))
             Text(
-                text = "Last reading: ${driverJobFormatKms(LastReadingKms.toString())} KMS",
+                text = buildAnnotatedString {
+                    append("Last reading: ")
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append("${driverJobFormatKms(LastReadingKms.toString())} KMS")
+                    }
+                },
                 style = MaterialTheme.typography.bodyMedium,
                 color = SvbBlack,
             )
@@ -349,8 +357,10 @@ private fun StepOdometerReading(
     ) {
         OutlinedButton(
             onClick = onBack,
-            modifier = Modifier.weight(0.38f),
-            shape = HomeCardShape,
+            modifier = Modifier
+                .weight(0.38f)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp, SvbN5),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
         ) {
@@ -360,9 +370,11 @@ private fun StepOdometerReading(
         }
         Button(
             onClick = onNext,
-            modifier = Modifier.weight(0.62f),
+            modifier = Modifier
+                .weight(0.62f)
+                .height(52.dp),
             enabled = odometerDigits.isNotEmpty() && odometerPhotoCaptured,
-            shape = HomeCardShape,
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = SvbPrimary2,
                 contentColor = SvbBlack,
@@ -424,8 +436,10 @@ private fun StepConfirmStartDuty(
     ) {
         OutlinedButton(
             onClick = onBack,
-            modifier = Modifier.weight(0.35f),
-            shape = HomeCardShape,
+            modifier = Modifier
+                .weight(0.35f)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp, SvbN5),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
         ) {
@@ -435,9 +449,11 @@ private fun StepConfirmStartDuty(
         }
         Button(
             onClick = onStartDuty,
-            modifier = Modifier.weight(0.65f),
+            modifier = Modifier
+                .weight(0.65f)
+                .height(52.dp),
             enabled = odometerDigits.isNotEmpty() && odometerPhotoCaptured,
-            shape = HomeCardShape,
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = SvbSuccess,
                 contentColor = SvbWhite,

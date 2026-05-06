@@ -54,7 +54,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.svb.fieldops.domain.model.UserRole
@@ -298,7 +301,7 @@ private fun SwapStepScanAndReason(
         onClick = onNext,
         modifier = Modifier.fillMaxWidth(),
         enabled = reasonIndex > 0,
-        shape = HomeCardShape,
+        shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = SvbPrimary2,
             contentColor = SvbBlack,
@@ -316,9 +319,8 @@ private fun SwapStepScanAndReason(
 @Composable
 private fun CurrentMachineBanner() {
     Surface(
-        shape = HomeCardShape,
+        shape = RoundedCornerShape(12.dp),
         color = SvbRoseTint,
-        border = BorderStroke(1.dp, SvbDanger.copy(alpha = 0.35f)),
         modifier = Modifier.fillMaxWidth(),
     ) {
         Column(Modifier.padding(horizontal = 14.dp, vertical = 12.dp)) {
@@ -427,9 +429,8 @@ private fun SwapStepNewMachineOdometer(
     )
     Spacer(Modifier.height(16.dp))
     Surface(
-        shape = HomeCardShape,
+        shape = RoundedCornerShape(12.dp),
         color = Color(0xFFE8F5E9),
-        border = BorderStroke(1.dp, SvbSuccess.copy(alpha = 0.45f)),
         modifier = Modifier.fillMaxWidth(),
     ) {
         Row(
@@ -517,8 +518,10 @@ private fun SwapStepNewMachineOdometer(
     ) {
         OutlinedButton(
             onClick = onBack,
-            modifier = Modifier.weight(0.38f),
-            shape = HomeCardShape,
+            modifier = Modifier
+                .weight(0.38f)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp, SvbN5),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
         ) {
@@ -532,9 +535,11 @@ private fun SwapStepNewMachineOdometer(
         }
         Button(
             onClick = onNext,
-            modifier = Modifier.weight(0.62f),
+            modifier = Modifier
+                .weight(0.62f)
+                .height(52.dp),
             enabled = newOdometerDigits.isNotEmpty() && hsdLitresDigits.isNotEmpty() && odometerPhotoCaptured,
-            shape = HomeCardShape,
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = SvbPrimary2,
                 contentColor = SvbBlack,
@@ -624,7 +629,7 @@ private fun SwapStepConfirm(
     }
     Spacer(Modifier.height(14.dp))
     Surface(
-        shape = HomeCardShape,
+        shape = RoundedCornerShape(12.dp),
         color = SvbPrimary5,
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -640,7 +645,13 @@ private fun SwapStepConfirm(
             )
             Spacer(Modifier.width(10.dp))
             Text(
-                text = "This swap request will be sent to the Site Engineer for approval. You will be notified once approved.",
+                text = buildAnnotatedString {
+                    append("This swap request will be sent to the ")
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append("Site Engineer")
+                    }
+                    append(" for approval. You will be notified once approved.")
+                },
                 style = MaterialTheme.typography.bodySmall,
                 color = SvbBlack,
             )
@@ -653,8 +664,10 @@ private fun SwapStepConfirm(
     ) {
         OutlinedButton(
             onClick = onBack,
-            modifier = Modifier.weight(0.35f),
-            shape = HomeCardShape,
+            modifier = Modifier
+                .weight(0.35f)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
             border = BorderStroke(1.dp, SvbN5),
             colors = ButtonDefaults.outlinedButtonColors(contentColor = SvbBlack),
         ) {
@@ -668,8 +681,10 @@ private fun SwapStepConfirm(
         }
         Button(
             onClick = onSubmit,
-            modifier = Modifier.weight(0.65f),
-            shape = HomeCardShape,
+            modifier = Modifier
+                .weight(0.65f)
+                .height(52.dp),
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = SvbSuccess,
                 contentColor = SvbWhite,

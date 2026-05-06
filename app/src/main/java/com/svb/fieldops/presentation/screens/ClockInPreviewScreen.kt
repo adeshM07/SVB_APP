@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CalendarToday
+import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.outlined.LocalShipping
@@ -142,6 +143,12 @@ fun ClockInPreviewScreen(
                 icon = Icons.Outlined.LocationOn,
                 label = "Location",
                 value = state.previewLocation,
+            )
+            HorizontalDivider(color = SvbN5.copy(alpha = 0.6f), thickness = 1.dp)
+            PreviewInfoRow(
+                icon = Icons.Outlined.Badge,
+                label = "Employee ID",
+                value = state.employeeId,
             )
             HorizontalDivider(color = SvbN5.copy(alpha = 0.6f), thickness = 1.dp)
             PreviewInfoRow(
